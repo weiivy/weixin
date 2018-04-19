@@ -1,0 +1,303 @@
+<?php
+use yii\helpers\Html;
+?>
+<i id="specific_itinerary" class="anchor-item anchor-has-sub"></i>
+<div id="travelDetailSection" class="detail-section">
+    <div class="section-title">行程明细</div>
+    <div class="section-content">
+        <!-- 行程线路切换组件 -->
+        <div class="travel-line">
+            <div class="travel-line-slider">
+                <div class="slider-wrap">
+                    <ul id="daySliderList" class="clearfix">
+                        <?php foreach((array)$tourData['itinerarys'] as $key => $itinerary):?>
+                        <li data-frame="<?=floor(($itinerary['dayIndex'] - 1) / 6) + 1 ?>" <?php if($itinerary['dayIndex'] > 6): ?>class="hide"<?php endif; ?>>
+                            <div class="day-index">
+                                <span>DAY<?=$itinerary['dayIndex'] ?></span>
+                                <i></i>
+                            </div>
+                            <div class="day-poi">
+                                <?php if(!empty($itinerary['scenes'])): ?>
+                                <a href="#D<?=$itinerary['dayIndex'] ?>">
+                                    <dl>
+                                        <?php foreach((array)$itinerary['scenes'] as $scene):?>
+                                        <dd><?=$scene['cnName'] ?></dd>
+                                        <?php endforeach;?>
+                                    </dl>
+                                </a>
+                                <?php elseif($itinerary['dayIndex'] == 1): ?>
+                                <dl>
+                                    <dd><?php echo '自由安排' ?></dd>
+                                </dl>
+                                <?php endif; ?>
+                                <span class="day-poi-mask"></span>
+                            </div>
+                        </li>
+                        <?php endforeach;?>
+                    </ul>
+                    <span id="prevDayBtn" class="exchange-btn prev-btn"></span>
+                    <span id="nextDayBtn" class="exchange-btn next-btn"></span>
+                </div>
+            </div>
+            <?php if(!empty($tourData['translation']['photoList'])):?>
+            <div class="travel-line-map" style="overflow: hidden;">
+                <?php foreach((array)$tourData['translation']['photoList'] as $photo):?>
+                <img class="lazy" style="display: block;margin-bottom: 5px;" src="<?=Yii::$app->params['staticDomain'].'/llt-static/images/common/preload_l.gif'?>" data-original="<?=$photo ?>" />
+                <?php endforeach; ?>
+            </div>
+            <?php endif;?>
+        </div>
+
+        <!-- 侧边日期导航 当产品天数大于3天时显示 -->
+        <?php if($tourData['basic']['duration'] > 3): ?>
+        <div class="travel-detail-days-nav" id="daysNav">
+            <ul>
+                <?php for ($tourlen=1; $tourlen<=$tourData['basic']['duration']; $tourlen++):?>
+                <li>
+                    <a href="#D<?=$tourlen ?>">D<?=$tourlen ?></a>
+                </li>
+                <?php endfor;?>
+            </ul>
+        </div>
+        <?php endif; ?>
+        <!-- 行程列表 -->
+        <div class="travel-detail-days">
+            <?php foreach((array)$tourData['itinerarys'] as $key => $itinerary):?>
+            <div class="travel-day-item" id="D<?=$itinerary['dayIndex'] ?>">
+                <div class="day-title">
+                    <i>D<?=$itinerary['dayIndex'] ?></i>
+                    <h2><strong>第<?=$itinerary['dayIndex'] ?>天</strong>&nbsp;&nbsp;&nbsp;&nbsp;<?=$itinerary['titleCN'] ?></h2>
+                </div>
+                <?php if(!empty($itinerary['imgCNList'])): ?>
+                    <div style="overflow: hidden;">
+                        <?php foreach((array)$itinerary['imgCNList'] as $imgCN):?>
+                        <img class="lazy" style="display: block;" src="<?=Yii::$app->params['staticDomain'].'/llt-static/images/detail/preload_poi.jpg'?>" data-original="<?=$imgCN ?>" />
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+                <!-- 行程概述 -->
+                <?php if(!empty($itinerary['descCN'])): ?>
+                <!-- 图片域名替换 -->
+                <?php
+                    $itinerary['descCN'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $itinerary['descCN']);
+                ?>
+                <div class="day-info">
+                  <i class="info-icon text-icon"></i>
+                  <div><?= Html::decode($itinerary['descCN']) ?></div>
+                </div>
+                <?php endif; ?>
+                <!--第一天：概述 > 接机提示 > 温馨提示 > 景点活动  最后一天：概述 > 景点活动 > 送机提示 > 温馨提示 -->
+                <?php if($key+1 == $tourData['basic']['duration']): ?>
+                    <!-- 景点活动 $itinerary['activitys'] -->
+                    <?php if(!empty($itinerary['activitys'])): ?>
+                    <div class="day-info">
+                        <i class="info-icon poi-icon"></i>
+                        <div class="poi-name">景点活动</div>
+                        <div>
+                            <ul class="poi-list clearfix">
+                                <?php foreach((array)$itinerary['activitys'] as $activity):?>
+                                <!-- 图片域名替换 -->
+                                <?php
+                                    $activity['descCN'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $activity['descCN']);
+                                ?>
+                                <li data-link="/scene/view/id-<?=$activity['node']['luluCode']?>">
+                                    <div class="clearfix">
+                                        <img class="poi-img lazy" src="<?=Yii::$app->params['staticDomain'].'/llt-static/images/detail/preload_poi.jpg'?>" data-original="<?=$activity['node']['photo'] ?>" width="224" height="134" />
+                                        <h3 class="poi-title"><?=$activity['titleCN'] ?></h3>
+                                        <div class="poi-desc">
+                                            <div><?= Html::decode($activity['descCN']); ?></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <!-- 送机信息 最后一天 $tourData['basic']['seeOffs'] -->
+                    <?php if(($tourData['basic']['pickupType']['typeCode'] == 1) && !empty($tourData['basic']['seeOffs'])): ?>
+                    <div class="day-info">
+                        <i class="info-icon flight-icon"></i>
+                        <div class="poi-name">送机信息</div>
+                        <table class="info-table">
+                            <tr>
+                                <th width="25%" class="strong">送机时间</th>
+                                <th width="25%" class="strong">送机城市/机场</th>
+                                <th width="50%" class="strong">送机地点/地址/备注</th>
+                            </tr>
+                            <?php foreach((array)$tourData['basic']['seeOffs'] as $seeOff):?>
+                            <td><?=$seeOff['pickupTime'] ?></td>
+                            <td><?=$seeOff['cityCN'] .'<br/>'.$seeOff['nameCN'] ?></td>
+                            <td>
+                                <?php echo $seeOff['locationCN']; if(!empty($seeOff['address'])) echo '<br/>'.$seeOff['address']; ?>
+                                <?php if(!empty($seeOff['remarkCN'])): ?>
+                                <br/><span style="color: #ff6f2e;"><?=$seeOff['remarkCN'] ?></span>
+                                <?php endif; ?>
+                            </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
+                    <?php endif; ?>
+                    <!-- 自定义字段 $itinerary['customFields'] -->
+                    <?php if(!empty($itinerary['customFields'])): ?>
+                    <div class="day-info">
+                        <i class="info-icon notice-icon"></i>
+                        <div>
+                            <table class="info-table custom-info-table">
+                                <?php foreach((array)$itinerary['customFields'] as $customField): ?>
+                                <!-- 图片域名替换 -->
+                                <?php
+                                    $customField['descCN'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $customField['descCN']);
+                                ?>
+                                <tr>
+                                    <td class="strong" valign="top"><?=$customField['titleCN'] ?></td>
+                                    <td valign="top"><?=Html::decode($customField['descCN']) ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                <?php else: ?>
+                    <!-- 接机信息 第一天 $tourData['basic']['pickUps'] -->
+                    <?php if(($tourData['basic']['pickupType']['typeCode'] == 1) && !empty($tourData['basic']['pickUps']) && ($key == 0)): ?>
+                    <div class="day-info">
+                        <i class="info-icon flight-icon"></i>
+                        <div class="poi-name">接机信息</div>
+                        <table class="info-table">
+                            <tr>
+                                <th width="25%" class="strong">接机时间</th>
+                                <th width="25%" class="strong">接机城市/机场</td>
+                                <th width="50%" class="strong">接机地点/地址/备注</td>
+                            </tr>
+                            <?php foreach((array)$tourData['basic']['pickUps'] as $pickUp):?>
+                            <tr>
+                                <td><?=$pickUp['pickupTime'] ?></td>
+                                <td><?=$pickUp['cityCN'] .'<br/>'.$pickUp['nameCN'] ?></td>
+                                <td>
+                                    <?php echo $pickUp['locationCN']; if(!empty($pickUp['address'])) echo '<br/>'.$pickUp['address']; ?>
+                                    <?php if(!empty($pickUp['remarkCN'])): ?>
+                                    <br/><span style="color: #ff6f2e;"><?=$pickUp['remarkCN'] ?></span>
+                                    <?php endif; ?>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </table>
+                    </div>
+                    <?php endif; ?>
+                    <!-- 自定义字段 $itinerary['customFields'] -->
+                    <?php if(!empty($itinerary['customFields'])): ?>
+                    <div class="day-info">
+                        <i class="info-icon notice-icon"></i>
+                        <div>
+                            <table class="info-table custom-info-table">
+                                <?php foreach((array)$itinerary['customFields'] as $customField): ?>
+                                <!-- 图片域名替换 -->
+                                <?php
+                                    $customField['descCN'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $customField['descCN']);
+                                ?>
+                                <tr>
+                                    <td class="strong" valign="top"><?=$customField['titleCN'] ?></td>
+                                    <td valign="top"><?=Html::decode($customField['descCN']) ?></td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </table>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <!-- 景点活动 $itinerary['activitys'] -->
+                    <?php if(!empty($itinerary['activitys'])): ?>
+                    <div class="day-info">
+                        <i class="info-icon poi-icon"></i>
+                        <div class="poi-name">景点活动</div>
+                        <div>
+                            <ul class="poi-list clearfix">
+                                <?php foreach((array)$itinerary['activitys'] as $activity):?>
+                                <!-- 图片域名替换 -->
+                                <?php
+                                    $activity['descCN'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $activity['descCN']);
+                                ?>
+                                <li data-link="/scene/view/id-<?=$activity['node']['luluCode']?>">
+                                    <div class="clearfix">
+                                        <img class="poi-img lazy" src="<?=Yii::$app->params['staticDomain'].'/llt-static/images/detail/preload_poi.jpg'?>" data-original="<?=$activity['node']['photo'] ?>" width="224" height="134" />
+                                        <h3 class="poi-title"><?=$activity['titleCN'] ?></h3>
+                                        <div class="poi-desc">
+                                            <div><?= Html::decode($activity['descCN']); ?></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+                <!-- 自费项目 $itinerary['optionalItems'] -->
+                <?php if(!empty($itinerary['optionalItems'])): ?>
+                <div class="day-info">
+                    <i class="info-icon fee-icon"></i>
+                    <div class="poi-name">自费项目</div>
+                    <?php foreach((array)$itinerary['optionalItems'] as $hkey => $optionalItem): ?>
+                    <table class="info-table J-info-table">
+                        <tr>
+                            <th width="40%" align="left" class="strong"><?=$optionalItem['nameCN'] ?></th>
+                            <th width="12%" align="center" class="strong">成人</th>
+                            <th width="12%" align="center" class="strong">小孩</th>
+                            <th width="12%" align="center" class="strong">婴儿</th>
+                            <th width="12%" align="center" class="strong">老人</th>
+                        </tr>
+                        <?php foreach((array)$optionalItem['itemInfos'] as $hkey => $itemInfo): ?>
+                        <?php
+                            $sign = isset(\Yii::$app->params['currencies'][$itemInfo['currency']]) ? \Yii::$app->params['currencies'][$itemInfo['currency']]['sign'] : $itemInfo['currency'];
+                            $personAdult = ($itemInfo['tourPerson']['adult'] && !empty($itemInfo['tourPerson']['adultDsc'])) ? ' (' . $itemInfo['tourPerson']['adultDsc'] . ')<br/>' : '';
+                            $personChild = ($itemInfo['tourPerson']['child'] && !empty($itemInfo['tourPerson']['childDsc'])) ? ' (' . $itemInfo['tourPerson']['childDsc'] . ')<br/>' : '';
+                            $personInfant = ($itemInfo['tourPerson']['infant'] && !empty($itemInfo['tourPerson']['infantDsc'])) ? ' (' . $itemInfo['tourPerson']['infantDsc'] . ')<br/>' : '';
+                            $personOld = ($itemInfo['tourPerson']['old'] && !empty($itemInfo['tourPerson']['oldDsc'])) ? ' (' . $itemInfo['tourPerson']['oldDsc'] . ')<br/>' : '';
+                        ?>
+                        <tr>
+                            <td class="strong"><?=$itemInfo['nameCN'] ?><?php if(!empty($itemInfo['remark'])){echo '<br/>'. $itemInfo['remark'];}  ?></td>
+                            <td><?php if($itemInfo['adult'] != 'N/A'){ echo $personAdult . $sign . $itemInfo['adult'] . $itemInfo['unitCN'];} ?></td>
+                            <td><?php if($itemInfo['child'] != 'N/A'){ echo $personChild . $sign . $itemInfo['child'] . $itemInfo['unitCN'];} ?></td>
+                            <td><?php if($itemInfo['infant'] != 'N/A'){ echo $personInfant . $sign . $itemInfo['infant'] . $itemInfo['unitCN'];} ?></td>
+                            <td><?php if($itemInfo['old'] != 'N/A'){ echo $personOld . $sign . $itemInfo['old'] . $itemInfo['unitCN'];} ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                    <br>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+                <!-- 酒店 $itinerary['hotels'] -->
+                <?php if(!empty($itinerary['hotels'])): ?>
+                <div class="day-info">
+                    <i class="info-icon hotel-icon"></i>
+                    <div class="poi-name">住宿</div>
+                    <div>
+                        <?php foreach((array)$itinerary['hotels'] as $hkey => $hotel): ?>
+                        <?php if(empty($hotel['address']) && empty($hotel['phone'])): ?>
+                        <span class="get-hotel-info" data-title="<?=$hotel['titleCN'] ?>" data-stars="<?=$hotel['starLevel'] ?>" data-address="<?=$hotel['address'] ?>" data-tel="<?=$hotel['phone'] ?>" data-desc="<?= htmlentities($hotel['descCN']) ?>"><?=$hotel['titleCN'] ?></span>
+                        <?php else: ?>
+                        <a class="get-hotel-info" data-title="<?=$hotel['titleCN'] ?>" data-stars="<?=$hotel['starLevel'] ?>" data-address="<?=$hotel['address'] ?>" data-tel="<?=$hotel['phone'] ?>" data-desc="<?= htmlentities($hotel['descCN']) ?>" href="javascript:;" target="_blank"><?=$hotel['titleCN'] ?></a>
+                        <?php endif; ?>
+                        <?php if($hkey + 1 != count($itinerary['hotels'])): ?>
+                        <span>或</span>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php if(!empty($itinerary['hotelSimilar'])): ?>或 同级<?php endif; ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <!-- 用餐 -->
+                <div class="day-info">
+                    <i class="info-icon food-icon"></i>
+                    <div class="poi-name">餐食</div>
+                    <div>
+                        <p>早餐：<?=$itinerary['breakfast']['cnName'] ?>   午餐：<?=$itinerary['lunch']['cnName'] ?>   晚餐：<?=$itinerary['dinner']['cnName'] ?></p>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach;?>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<table border="1" cellspacing="0" cellpadding="0" bordercolor="#e4e4e4">
+    <col width="40%">
+    <col width="46%">
+    <tr>
+        <th scope="col">游客信息 </th>
+        <th scope="col">游客备注 </th>
+    </tr>
+    <?php foreach ($rooms as $room): ?>
+    <tr>
+        <td>
+            <table class="inner" style="width:100%;border:none;">
+                <?php foreach ($room->passengers as $passenger): ?>
+                <tr>
+                    <td width="40%"><?= $passenger['lastname'] . ' ' . $passenger['firstname'] ?></td>
+                    <td width="10%"><?= $passenger['gender'] == 1 ? '男' : '女' ?></td>
+                    <td width="14%"><?= $passenger['isadult'] == 'Y' ? '成人' : '儿童' ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </table>
+        </td>
+        <td><p><?= $room['remark'] ?></p></td>
+    </tr>
+    <?php endforeach; ?>
+</table>

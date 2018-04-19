@@ -1,0 +1,20 @@
+<ul class="nav_contents_div nav">
+    <li id="key_orderinfo" class="nav_div_con active"> <a href="#orderinfo" class="nav_con_a">重要信息</a> </li>
+    <li id="key_passenger" class="nav_div_con"> <a href="#passenger" class="nav_con_a">游客信息</a> </li>
+
+    <?php if ($booking['pickup_type'] == 1): ?>
+    <li id="key_airinfo" class="nav_div_con"> <a href="#airinfo" class="nav_con_a">航班信息</a> </li>
+    <li id="key_operatorairterms" class="nav_div_con"> <a href="#operatorairterms" class="nav_con_a">接机须知</a> </li>
+    <?php elseif($booking['pickup_type'] == 2): ?>
+    <li id="key_pickupinfo" class="nav_div_con"> <a href="#pickupinfo" class="nav_con_a">集合信息</a> </li>
+    <li id="key_pickupterms" class="nav_div_con"> <a href="#pickupterms" class="nav_con_a">参团须知</a> </li>
+    <?php endif; ?>
+
+    <?php if (!$booking['one_day_tour']): ?>
+    <li id="key_itinerary" class="nav_div_con"> <a href="#itinerary" class="nav_con_a">行程及酒店</a> </li>
+    <?php endif; ?>
+
+    <li id="key_priceincludes" class="nav_div_con"> <a href="#priceincludes" class="nav_con_a">团费包含</a> </li>
+    <li id="key_pricenotincludes" class="nav_div_con"> <a href="#pricenotincludes" class="nav_con_a">团费不包含</a> </li>
+    <li id="key_tournotes" class="nav_div_con"> <a href="#tournotes" class="nav_con_a">注意事项</a> </li>
+</ul>

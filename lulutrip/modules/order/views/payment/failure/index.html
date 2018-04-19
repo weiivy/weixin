@@ -1,0 +1,13 @@
+<?= $this->registerCssFile(Yii::$app->controller->staticUrl . "payment/payment-failure/index.entry.css");?>
+<?= $this->registerJsFile(Yii::$app->controller->staticUrl . "payment/payment-failure/index.entry.js");?>
+
+<!-- 主体内容 -->
+<div id="content" class="content">
+    <div id="orderStep"></div>
+    <div class="clearfix">
+        <div class="order-about" id="orderAbout">
+            <?= Yii::$app->view->renderFile('@orderModule/views/payment/failure/components/order-about.html', ['merchantOrderCD' => $merchantOrderCD]);?>
+        </div>
+    </div>
+    <a id="payment-failure" ga-data="200501"></a>
+</div>

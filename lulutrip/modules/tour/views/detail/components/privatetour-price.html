@@ -1,0 +1,11 @@
+<div class="private-tour-price">
+    <div class="private-name">亲友定制价格需二次确认，点击【立即订购】1天内即获得精准报价信息</div>
+    <div>
+        <span>如需预订请</span>
+        <a id="J_pre-book" href="<?php if(empty($tourData['basic']['purposeUrl'])):?>javascript:;<?php else:?><?=$tourData['basic']['purposeUrl']?><?php endif;?>">立即订购</a>
+        <span>
+        <i class="wechat"><span><img src="http://llt.quimg.com/llt-static/images/detail/private-<?=strtolower(\Yii::$app->controller->regionRoot)?>.jpg" alt="微信客服" width="100" height="100"></span></i>
+      扫描二维码，添加微信咨询
+    </span>
+    </div>
+</div>

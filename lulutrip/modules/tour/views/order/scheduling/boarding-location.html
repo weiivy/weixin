@@ -1,0 +1,31 @@
+<?php if(isset($basic['points'])):?>
+<?php $fData = Yii::$app->params['formData'];?>
+<div class="fill-detail bording-location J-change-box">
+    <div class="fill-detail-tit">上车地点<div class="check-tips">请按要求勾选上车地点</div></div>
+    <div class="fill-detail-info">
+        <div class="check-list">
+            <div class="add-list-tit"><span class="d85">上车时间</span><span class="d85">上车城市</span><span class="d240">上车地点</span><span>上车地址</span></div>
+            <div class="add-list-select">
+                <?php foreach($basic['points'] as $point):?>
+                    <?php if(!empty($point['startTime'])):?>
+                    <div class="add-li">
+                        <label>
+                            <input class="boarding-radio" name="localPickup" type="radio" value="<?=$point['uid']?>"<?php if(isset($fData['localPickup']) && $fData['localPickup'] == $point['uid']):?> checked<?php endif;?>>
+                            <span><?=$point['startTime']?></span>
+                            <div class="add-li-d d85"><?=$point['info']['cityCN']?></div>
+                            <div class="add-li-d d220">
+                                <?=$point['info']['locationCN']?>
+                                <?php if(!empty($point['remarkCN'])): ?>
+                                <p class="get-point-notice"><?=$point['remarkCN'] ?></p>
+                                <?php endif; ?>
+                             </div>
+                            <div class="add-li-d"><?=$point['info']['address']?></div>
+                        </label>
+                    </div>
+                    <?php endif;?>
+                <?php endforeach;?>
+            </div>
+        </div>
+    </div>
+</div>
+<?php endif;?>

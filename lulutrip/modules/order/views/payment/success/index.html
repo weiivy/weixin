@@ -1,0 +1,19 @@
+<?= $this->registerCssFile(Yii::$app->controller->staticUrl . "payment/payment-success/index.entry.css");?>
+<?= $this->registerJsFile(Yii::$app->controller->staticUrl . "payment/payment-success/index.entry.js");?>
+
+<!-- 主体内容 -->
+<div id="content" class="content">
+    <div id="orderStep"></div>
+    <div class="clearfix">
+        <div class="order-about" id="orderAbout">
+            <?= Yii::$app->view->renderFile('@orderModule/views/payment/success/components/order-about.html', ['merchantOrderCD' => $merchantOrderCD, 'emailAddress' => $emailAddress]);?>
+        </div>
+        <div class="order-adposition" id="orderAdposition">
+            <?php //Yii::$app->view->renderFile('@orderModule/views/payment/success/components/order-adposition.html', []);?>
+        </div>
+        <div class="travel-safe" id="travelSafe">
+            <?php //Yii::$app->view->renderFile('@orderModule/views/payment/success/components/travel-safe.html', []);?>
+        </div>
+    </div>
+    <a id="payment-success" ga-data="200500"></a>
+</div>

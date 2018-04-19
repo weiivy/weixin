@@ -1,0 +1,28 @@
+<?php
+use yii\helpers\Html;
+use lulutrip\assets\AppAsset;
+AppAsset::register($this);
+
+?>
+<?php $this->beginPage() ?>
+<!doctype html>
+<html xmlns:wb="http://open.weibo.com/wb">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="chinaz-site-verification" content="b63a303c-edc8-4e52-afc3-2570bdc30b7b" />
+    <title><?= \Yii::$app->controller->pageTitle?></title>
+    <?php $this->head() ?>
+</head>
+<body>
+<?php $this->beginBody() ?>
+<?= (new \common\event\Language())->translation(\lulutrip\modules\order\widgets\HeaderWidgets::widget())?>
+<?= (new \common\event\Language())->translation($content)?>
+<?= (new \common\event\Language())->translation(\lulutrip\modules\order\widgets\FooterWidgets::widget())?>
+
+<script src="<?=Yii::$app->params['staticDomain']?>/llt-static/scripts/jquery-1.8.3.min.js" charset="utf-8"></script>
+
+<?php $this->endBody() ?>
+<?= \lulutrip\widgets\TrackCode::widget();?>
+</body>
+</html>
+<?php $this->endPage() ?>

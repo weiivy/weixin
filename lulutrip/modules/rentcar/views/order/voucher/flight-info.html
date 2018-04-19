@@ -1,0 +1,53 @@
+<div class="table-style  " id="airinfo">
+    <h2>航班信息<span>Flight Information</span></h2>
+    <table border="1" cellspacing="0" cellpadding="0" bordercolor="#e4e4e4">
+        <col width="40%">
+        <col width="60%">
+        <tr>
+            <th scope="col">飞抵信息</th>
+            <th scope="col">接机备注 </th>
+        </tr>
+        <tr>
+            <td>
+                <?php $inFlight = $flight['in_flight']; ?>
+                <?php if (is_array($inFlight)): ?>
+                <p>飞抵时间：<?= $inFlight['date'] ?> <?= $inFlight['arrival'] ?></p>
+                <p>飞抵机场：<?= $inFlight['arrivalap'] ?></p>
+                <p>飞抵航班：<?= $inFlight['flight'] ?></p>
+                <?php else: ?>
+                请提前提供航班信息，便于为您接机
+                <?php endif; ?>
+            </td>
+            <td>
+                <?= (isset($voucher['pickup_remark']) && !empty($voucher['pickup_remark'])) ? $voucher['pickup_remark'] : "暂无备注，祝您旅途愉快" ?>
+            </td>
+        </tr>
+        <tr>
+            <th scope="col">飞离信息</th>
+            <th scope="col">送机备注 </th>
+        </tr>
+        <tr>
+            <td>
+                <?php $outFlight = $flight['out_flight']; ?>
+                <?php if (is_array($outFlight)): ?>
+                <p>飞抵时间：<?= $outFlight['date'] ?> <?= $outFlight['dept'] ?></p>
+                <p>飞抵机场：<?= $outFlight['deptap'] ?></p>
+                <p>飞抵航班：<?= $outFlight['flight'] ?></p>
+                <?php else: ?>
+                请提前提供航班信息，便于为您接机
+                <?php endif; ?>
+            </td>
+            <td>
+                <?= (isset($voucher['dropoff_remark']) && !empty($voucher['dropoff_remark'])) ? $voucher['dropoff_remark'] : "暂无备注，祝您旅途愉快" ?>
+            </td>
+        </tr>
+        <?php if (isset($voucher['tour_remark']) && !empty($voucher['tour_remark'])): ?>
+        <tr>
+            <th colspan="2">其他备注</th>
+        </tr>
+        <tr>
+            <td colspan="2"><?= $voucher['tour_remark'] ?></td>
+        </tr>
+        <?php endif; ?>
+    </table>
+</div>

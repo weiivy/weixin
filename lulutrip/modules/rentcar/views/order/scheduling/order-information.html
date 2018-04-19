@@ -1,0 +1,24 @@
+<?php
+    $insurance = array('', '无保险', '车损盗抢险', '车损盗抢险 + 第三者责任险');
+?>
+<div class="personnel-detail">
+    <div class="personnel-detail-tit">预订信息</div>
+    <div class="personnel-detail-info">
+        <div class="info-li">
+            <span class="info-li-t">产品名称：</span>
+            <div class="info-li-cont"><?=$data['carname']?></div>
+        </div>
+        <div class="info-li">
+            <span class="info-li-t">租车日期：</span>
+            <div class="info-li-cont">取车时间：<?=$data['pickup_time']?>，还车时间：<?=$data['return_time']?>    租车天数：<?=$data['daylen']?>天</div>
+        </div>
+        <div class="info-li">
+            <span class="info-li-t">租车信息：</span>
+            <div class="info-li-cont">
+                <p><?=$data['carinfo']?></p>
+                <p>座位数：<?=$data['seats']?>人&nbsp;&nbsp;&nbsp;行李空间：<?=$data['luggage']?>&nbsp;&nbsp;&nbsp;保险信息：<?=$insurance[$data['insurance']]?></p>
+                <p>取车地点：<?=$data['pickup_location_name']?>&nbsp;&nbsp;&nbsp;还车地点：<?=$data['return_location_name']?></p>
+            </div>
+        </div>
+    </div>
+</div>

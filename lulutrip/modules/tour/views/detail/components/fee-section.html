@@ -1,0 +1,206 @@
+<i id="cost_detail" class="anchor-item"></i>
+<div id="feeSection" class="detail-section">
+    <div class="section-title">费用明细</div>
+    <div class="section-content">
+        <div class="fee-detail">
+            <div class="fee-name">费用包含</div>
+            <?php if(!empty($tourData['basic']['priceIncludes'])): ?>
+            <table>
+                <colgroup>
+                    <col width="125px" />
+                    <col width="1025px" />
+                </colgroup>
+                <?php foreach((array)$tourData['basic']['priceIncludes'] as $priceInclude):?>
+                <tr>
+                    <td class="strong"><?=$priceInclude['key'] ?>：</td>
+                    <td><?=$priceInclude['value'] ?></td>
+                </tr>
+                <?php endforeach;?>
+            </table>
+            <?php else: ?>
+            <!-- 图片域名替换 -->
+            <?php
+                $tourData['basic']['priceIncludeLuluCN'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $tourData['basic']['priceIncludeLuluCN']);
+            ?>
+            <?= \yii\helpers\Html::decode($tourData['basic']['priceIncludeLuluCN']); ?>
+            <?php endif; ?>
+        </div>
+
+        <?php
+            $optionalItems = $iItemCodes = array();
+            foreach((array)$tourData['itinerarys'] as $itinerary){
+                foreach((array)$itinerary['optionalItems'] as $ivalue){
+                    if(!empty($ivalue['items']) && is_array($ivalue['items'])){
+                        $iItemCodes = array_filter(array_merge($iItemCodes, $ivalue['items']));
+                    }
+                }
+            }
+            $count = 0;
+            foreach((array)$tourData['basic']['optionalItems'] as $pvalue){
+                $temp1 = $temp2 = array();
+                foreach((array)$pvalue['itemInfos'] as $ppvalue){
+                    if(in_array($ppvalue['code'], $iItemCodes) || empty($ppvalue)) continue;
+                    $temp1[] = $ppvalue;
+                }
+                $temp2['nameCN'] = $pvalue['nameCN'];
+                $temp2['itemInfos'] = $temp1;
+                $optionalItems[] = $temp2;
+                if ($temp1) $count ++;
+            }
+        ?>
+        <i id="optional_item" class="anchor-item anchor-has-sub"></i>
+        <div class="fee-detail">
+            <div class="fee-name">费用不包含</div>
+            <?php if(!empty($tourData['basic']['priceExcludes'])): ?>
+            <table>
+                <colgroup>
+                    <col width="125px" />
+                    <col width="1025px" />
+                </colgroup>
+                <?php foreach((array)$tourData['basic']['priceExcludes'] as $priceExclude):?>
+                <tr>
+                    <td class="strong"><?=$priceExclude['key'] ?>：</td>
+                    <td><?=$priceExclude['value'] ?></td>
+                </tr>
+                <?php endforeach;?>
+                <?php if(!empty($optionalItems) && $count > 0): ?>
+                <tr>
+                    <td class="strong">自费项目：</td>
+                    <td>
+                        <!-- 行程中不包含的产品 自费项目 -->
+                        <?php foreach((array)$optionalItems as $hkey => $optionalItem): ?>
+                        <?php if(empty($optionalItem['itemInfos'])) continue; ?>
+                        <table class="info-table J-info-table">
+                            <tr>
+                                <th align="left" class="strong"><?=$optionalItem['nameCN'] ?></th>
+                                <th width="15%" align="left" class="strong">成人</th>
+                                <th width="15%" align="left" class="strong">小孩</th>
+                                <th width="15%" align="left" class="strong">婴儿</th>
+                                <th width="15%" align="left" class="strong">老人</th>
+                            </tr>
+                            <?php foreach((array)$optionalItem['itemInfos'] as $hkey => $itemInfo): ?>
+                            <?php
+                $sign = isset(\Yii::$app->params['currencies'][$itemInfo['currency']]) ? \Yii::$app->params['currencies'][$itemInfo['currency']]['sign'] : $itemInfo['currency'];
+                            $personAdult = ($itemInfo['tourPerson']['adult'] && !empty($itemInfo['tourPerson']['adultDsc'])) ? ' (' . $itemInfo['tourPerson']['adultDsc'] . ')<br/>' : '';
+                            $personChild = ($itemInfo['tourPerson']['child'] && !empty($itemInfo['tourPerson']['childDsc'])) ? ' (' . $itemInfo['tourPerson']['childDsc'] . ')<br/>' : '';
+                            $personInfant = ($itemInfo['tourPerson']['infant'] && !empty($itemInfo['tourPerson']['infantDsc'])) ? ' (' . $itemInfo['tourPerson']['infantDsc'] . ')<br/>' : '';
+                            $personOld = ($itemInfo['tourPerson']['old'] && !empty($itemInfo['tourPerson']['oldDsc'])) ? ' (' . $itemInfo['tourPerson']['oldDsc'] . ')<br/>' : '';
+                            ?>
+                            <tr>
+                                <td class="strong"><?=$itemInfo['nameCN'] ?><?php if(!empty($itemInfo['remark'])){echo '<br/>'. $itemInfo['remark'];}  ?></td>
+                                <td><?php if($itemInfo['adult'] != 'N/A'){ echo $personAdult . $sign . $itemInfo['adult'] . $itemInfo['unitCN'];} ?></td>
+                                <td><?php if($itemInfo['child'] != 'N/A'){ echo $personChild . $sign . $itemInfo['child'] . $itemInfo['unitCN'];} ?></td>
+                                <td><?php if($itemInfo['infant'] != 'N/A'){ echo $personInfant . $sign . $itemInfo['infant'] . $itemInfo['unitCN'];} ?></td>
+                                <td><?php if($itemInfo['old'] != 'N/A'){ echo $personOld . $sign . $itemInfo['old'] . $itemInfo['unitCN'];} ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </table>
+                        <?php endforeach; ?>
+                    </td>
+                </tr>
+                <?php endif; ?>
+                <?php if(!empty($tourData['activityGroups'])):?>
+                <tr>
+                    <td class="strong">自选项目：</td>
+                    <td>
+                        <table class="info-table">
+                            <tr>
+                                <th width="10%" class="strong">项目类型</th>
+                                <th width="10%" class="strong">规则</th>
+                                <th class="strong">项目名称</th>
+                                <th width="10%" class="strong">币种</th>
+                                <th width="20%" class="strong">价格</th>
+                            </tr>
+                            <?php foreach($tourData['activityGroups'] as $activityGroup): $rowspan = count($activityGroup['itemInfos']); ?>
+                            <?php if($activityGroup['subType'] != 21) continue; ?>
+                            <?php
+                                foreach($activityGroup['itemInfos'] as $key => $itemInfo){
+                                    $itemInfoDateExpression = '';
+                                        $itemArr1 = $itemArr2 = $itemArr3 = [];
+                                        foreach((array)$itemInfo['dateExpressionList'] as $itemDateList){
+                                            switch($itemDateList['type']){
+                                                case 1:
+                                                    if(!empty($itemDateList['startDate']) && !empty($itemDateList['endDate'])){
+                                                        $itemArr1[] = $itemDateList['startDate'] .'~'. $itemDateList['endDate'];
+                                                    }
+                                                    break;
+                                                case 2:
+                                                    if(!empty($itemDateList['includeDates'])) $itemArr2 = array_merge($itemArr2, $itemDateList['includeDates']);
+                                                    break;
+                                                case 3:
+                                                    if(!empty($itemDateList['excludeDates'])) $itemArr3 = array_merge($itemArr3, $itemDateList['excludeDates']);
+                                                    break;
+                                            }
+                                        }
+                                        if(!empty($itemArr1)){
+                                            $itemInfoDateExpression .= implode("、", $itemArr1);
+                                        }
+                                        if(!empty($itemArr2)){
+                                            $itemInfoDateExpression .= empty($itemInfoDateExpression)? implode("、", $itemArr2) : '、' . implode("、", $itemArr2);
+                                        }
+                                        if(!empty($itemArr3)){
+                                            $itemInfoDateExpression .= empty($itemInfoDateExpression)? implode("、排除 ",  $itemArr3) : '、排除 ' . implode("、排除 ", $itemArr3);
+                                        }
+                                    $activityGroup['itemInfos'][$key]['dateExpressionStr'] = $itemInfoDateExpression;
+                                }
+                                $firstArr = array_shift($activityGroup['itemInfos']);
+                            ?>
+                            <tr>
+                                <td rowspan="<?=$rowspan?>">常规</td>
+                                <td rowspan="<?=$rowspan?>">
+                                    <?=$activityGroup['groupRule']?>
+                                </td>
+                                <td><?=$firstArr['titleCN']?> <?php if(!empty($firstArr['dateExpressionStr'])) echo '<br/>有效期：' .$firstArr['dateExpressionStr'];  ?></td>
+                                <td><?=$firstArr['currency']?></td>
+                                <td>
+                                    <?php foreach($firstArr['columnInfos'] as $columnInfo):?>
+                                    <?=$columnInfo['columnValue']?> <?=$columnInfo['sellingPrice']?>
+                                    <?php if(in_array($columnInfo['columnValue'], ['成人价', '儿童价'])):?>
+                                    /人
+                                    <?php elseif(in_array($activityGroup['subType'], [22])):?>
+                                    /辆
+                                    <?php elseif(in_array($activityGroup['subType'], [23])):?>
+                                    天/辆
+                                    <?php elseif(in_array($columnInfo['columnValue'], ['单人房总价', '两人房总价', '三人房总价', '四人房总价'])):?>
+                                    /间
+                                    <?php endif;?><br/>
+                                    <?php endforeach;?>
+                                </td>
+                            </tr>
+                            <?php foreach($activityGroup['itemInfos'] as $itemInfo):?>
+                            <tr>
+                                <td><?=$itemInfo['titleCN']?><?php if(!empty($itemInfo['dateExpressionStr'])) echo '<br/>有效期：' .$itemInfo['dateExpressionStr'];  ?></td>
+                                <td><?=$itemInfo['currency']?></td>
+                                <td>
+                                    <?php foreach($itemInfo['columnInfos'] as $columnInfo):?>
+                                    <?=$columnInfo['columnValue']?> <?=$columnInfo['sellingPrice']?>
+                                    <?php if(in_array($columnInfo['columnValue'], ['成人价', '儿童价'])):?>
+                                    /人
+                                    <?php elseif(in_array($activityGroup['subType'], [22])):?>
+                                    /辆
+                                    <?php elseif(in_array($activityGroup['subType'], [23])):?>
+                                    /天
+                                    <?php elseif(in_array($columnInfo['columnValue'], ['单人房总价', '两人房总价', '三人房总价', '四人房总价'])):?>
+                                    /间
+                                    <?php endif;?><br/>
+                                    <?php endforeach;?>
+                                </td>
+                            </tr>
+                            <?php endforeach?>
+                            <?php endforeach;?>
+                        </table>
+                    </td>
+                </tr>
+                <?php endif;?>
+            </table>
+            <?php else: ?>
+            <!-- 图片域名替换 -->
+            <?php
+                $tourData['basic']['priceExcludeLuluCN'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $tourData['basic']['priceExcludeLuluCN']);
+            ?>
+            <?= \yii\helpers\Html::decode($tourData['basic']['priceExcludeLuluCN']); ?>
+            <?php endif; ?>
+        </div>
+
+    </div>
+</div>

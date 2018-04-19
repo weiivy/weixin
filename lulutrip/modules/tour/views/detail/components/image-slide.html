@@ -1,0 +1,26 @@
+<div class="um-imageSlider">
+    <div class="um-is-mainbox J-umIsMainbox"></div>
+    <p></p>
+    <div class="um-is-dobox">
+        <!-- start要判断下图片长度 >5 才添加 -->
+        <?php if(count($photos) > 5): ?>
+        <span class="um-is-btn um-is-prev J-umIsPrev J-umIsBtn"></span>
+        <?php endif; ?>
+        <!--end  -->
+        <div class="um-is-listbox">
+            <ul class="J-umIsList">
+                <?php foreach((array)$photos as $photo): ?>
+                <li>
+                    <img src="<?=$photo['photo'] ?>" onerror="this.src='<?=Yii::$app->params['staticDomain'] ?>/llt-static/images/detail/preload_dobox.jpg'" alt="<?= $photo['titleCN'] ?>" width="108" height="65">
+                    <span></span>
+                </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+        <!-- start要判断下图片长度 >5 才添加 -->
+        <?php if(count($photos) > 5): ?>
+        <span class="um-is-btn um-is-next J-umIsNext J-umIsBtn"></span>
+        <?php endif; ?>
+        <!--end  -->
+    </div>
+</div>

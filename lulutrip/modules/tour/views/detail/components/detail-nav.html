@@ -1,0 +1,59 @@
+<div id="detailNav" class="detail-nav">
+    <div class="detail-nav-inner clearfix">
+        <ul class="clearfix">
+            <li>
+                <a class="top-nav" href="#travelSection">行程介绍</a>
+                <div class="sub-detail-nav">
+                    <ul class="clearfix">
+                        <li>
+                            <a class="sub-nav" href="#tour_overview">行程特色</a>
+                        </li>
+                        <li class="divide"></li>
+                        <li>
+                            <a class="sub-nav" href="#specific_itinerary">行程明细</a>
+                        </li>
+                        <?php if($tourData['basic']['pickupType']['code'] == 2 && !empty($tourData['basic']['points'])): ?>
+                        <li class="divide"></li>
+                        <li>
+                            <a class="sub-nav" href="#geton_d">集散地点</a>
+                        </li>
+                        <?php endif; ?>
+                        <!--当产品自选项目里的常规项目数量不为空，且费用不包含新版不为空时 显示 自选项目明细 导航-->
+                        <?php if(!empty($tourData['optionalItemSubType']) && in_array('21', $tourData['optionalItemSubType']) && !empty($tourData['basic']['priceExcludes'])): ?>
+                        <li class="divide"></li>
+                        <li>
+                            <a class="sub-nav" href="#optional_item">自选项目明细</a>
+                        </li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </li>
+            <li>
+                <a class="top-nav" href="#cost_detail">费用明细</a>
+            </li>
+            <li>
+                <a class="top-nav" href="#order_info">订购须知</a>
+            </li>
+            <?php if ($commentCount > 0): ?>
+            <li>
+                <a class="top-nav" href="#group_evaluation">团友评价（<?= $commentCount ?>）</a>
+            </li>
+            <?php endif; ?>
+            <li>
+                <a class="top-nav" href="#partnerSection">路路结伴<?php if($luluTopicCount > 0):?>（<?= $luluTopicCount ?>）<?php endif;?></a>
+            </li>
+            <li>
+                <a class="top-nav" href="#faq">问题咨询<?php if($questionCount > 0):?>（<?= $questionCount ?>）<?php endif;?></a>
+            </li>
+        </ul>
+<!--        <div id="emailPrint" class="email-print">-->
+<!--            <div>-->
+<!--                <a class="print-btn" href="http://www.lulutrip.com/tour/printable/tourcode---><?//= $tourData['basic']['productCode'] ?><!--" target="_blank">打印行程表</a>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <a id="sendEmailBtn" class="send-email-btn" href="javascript:;">E-mail 行程</a>-->
+<!--            </div>-->
+<!--        </div>-->
+        <a id="gotoBuyBtn" class="J-umPdOrder goto-buy-btn" href="javascript:;">我要订购</a>
+    </div>
+</div>

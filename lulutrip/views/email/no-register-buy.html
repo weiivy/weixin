@@ -1,0 +1,26 @@
+<!doctype html>
+<html xmlns:wb="http://open.weibo.com/wb">
+<head>
+    <meta charset="utf-8">
+    <title>【路路行】请确认您的电子邮件地址，激活账户</title>
+    <meta http-equiv="Expires" content="-1" />
+</head>
+<body style="margin:0;background:#f6f6f6;">
+<div style="width:660px;margin:0 auto;line-height:22px; font-family:'微软雅黑',Arial, Helvetica, sans-serif;">
+    <div><img src="http:<?=Yii::$app->helper->getStaticDomain()?>/images/email/lulutrip_logo.png"></div>
+    <div style="border-top:4px solid #00acd5;background:#fff;padding:30px 40px 20px;box-shadow: 5px 5px 9px 0px #e3e3e3;">
+        <div style="font-size:20px;color:#222;">亲爱的<?=$name?>:</div>
+        <div style="margin-top:20px;font-size:16px;color:#666;text-indent: 32px;">感谢您订购路路行产品
+            <?=$product['title']?>（产品ID：<b style="margin:0 5px;color:#fe9a00;"><?=$product['pcode']?></b>）;
+            为确保您成功收到电子团票、发票等重要信息，请确认您的电子邮件地址。</div>
+        <div style="margin-top:20px;text-align:center;"><a style="display:inline-block;width:360px;height:48px;line-height:48px;background:#ff9900;color:#fff;font-size:18px;text-align:center;border-radius:4px;text-decoration: none;" href="<?=Yii::$app->params['service']['ssl']?>/user/perfectInfo?memberid=<?=$memberid?>&t=<?=time()?>&authcode=<?=$authcode?>">戳这里，验证邮箱</a></div>
+        <div style="margin-top:20px;font-size:14px;">如果无法点击，请复制链接地址到浏览器地址栏中打开<a style="display:block;color:#0099cc;" href="<?=Yii::$app->params['service']['ssl']?>/user/perfectInfo?memberid=<?=$memberid?>&t=<?=time()?>&authcode=<?=$authcode?>"><?=Yii::$app->params['service']['ssl']?>/user/perfectInfo?memberid=<?=$memberid?>&t=<?=time()?>&authcode=<?=$authcode?></a></div>
+        <div style="height:40px;">&nbsp;</div>
+        <div style="text-align:left;color:#c9c9c9;font-size:12px;"><?=date("Y-m-d H:i:s")?></div>
+    </div>
+    <div style="text-align: center;background:#f2f2f2;"><img src="http://llt.quimg.com/llt-static/images/email/email_foot1.jpg" width="601" alt="路路行全体成员祝您旅途愉快！"/></div>
+    <div style="text-align: center;"><img src="http://llt.quimg.com/llt-static/images/email/email_foot2.jpg" width="100%" alt="路路行全体成员祝您旅途愉快！"/></div>
+    <div style="text-align: center;background: #fff;"><img src="http://llt.quimg.com/llt-static/images/email/email_foot3.jpg" width="581" height="80" alt="路路行旅行网 将世界旅行送至你的指尖！"/></div>
+</div>
+</body>
+</html>

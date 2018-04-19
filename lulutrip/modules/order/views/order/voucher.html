@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="//img1.quimg.com/styles/tour_package_e-voucher.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="//img1.quimg.com/styles/index_14.css" />
+    <script type="text/javascript" src="//img1.quimg.com/scripts/jquery-1.9.0.js" ></script>
+    <script type="text/javascript" src="//img1.quimg.com/scripts/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="//img1.quimg.com/scripts/My97DatePicker/WdatePicker.js" ></script>
+    <script type="text/javascript" src="//img1.quimg.com/scripts/e_voucher.js" ></script>
+    <style type="text/css" media="print">
+        .noprint { display : none }
+        .print_r{ float:left; margin:0 auto;}
+        .nextpage {page-break-after:always;}
+    </style>
+    <style type="text/css">
+        .btn01_order_tb { display:block; width: 103px; height: 22px; line-height: 22px; text-align: center;font-size: 12px; background: #fa5800; color: #fff; text-decoration: none; border:2px solid #fa5800; border-radius: 5px; margin-bottom: 2px;
+            float: left!important; display: inline-block!important; margin-right: 10px;}
+    </style>
+    <script type="text/javascript">
+        var is_priv = "";
+        var voucherId = "";
+        var orderType = 'tour';
+        function trim(str) {
+            return str.replace(/(^\s*)|(\s*$)/g, "");
+        }
+    </script>
+    <title>电子凭证</title>
+</head>
+<body data-spy="scroll" data-target=".contents_nav">
+<div id="main_14">
+    <div class="contents">
+        <!--左侧导航 start-->
+        <div class="contents_nav noprint">
+            <div class="contents_nav_main">
+                <div class="nav_contents">
+                    <?= Yii::$app->view->renderFile('@orderModule/views/order/voucher/nav.html', ['booking' => $booking]);?>
+                    <div class="nav_contents_div"><!--列表块-->
+                        <div class="line"></div>
+                        <div class="nav_div_con"> <a href="javascript:;" class="nav_con_a" onclick="window.print();"><i class="icon1"></i>打印凭证</a> </div>
+                        <!-- <div class="nav_div_con"> <a href="javascript:;" class="nav_con_a"><i class="icon2"></i>导出凭证</a> </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--左侧导航 end-->
+        <div class="contents_right print_r" id="printPDFIframe">
+            <div class="contents_right_main">
+                <div class="contents_right_h">
+                    <h2>路路行 7x24 服务热线</h2>
+                    <p><?= explode(',', $telDefault['NA'])[0]?>（北美）  <?= $telDefault['CN']?> （中国）</p>
+                </div>
+                <div class="contents_right_weixin mb20">
+                    <div>
+                        <h1>Tour Package E-Voucher</h1>
+                        <h2>旅行团产品电子凭证</h2>
+                        <h3>可直接携带电子版，或纸质版参团</h3>
+                    </div>
+                    <dl>
+                        <dt class="fl"><img src="http://www.lulutrip.com/my/qrcode" width="87" height="87"></dt>
+                        <dd class="fl">
+                            <h3 class="f18 fb">微信扫一扫</h3>
+                            <p class="f14">订单信息随时查</p>
+                            <p class="f14">行程疑问随时答</p>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="contents_right_inro">
+                    <div class="table-style style01" id="orderinfo">
+                        <h2>重要信息<span>Important Information</span></h2>
+                        <div class="msg">
+                            <dl>
+                                <dt>订单信息</dt>
+                                <dd>
+                                    <p>订单编号：<span><?= $booking['bookingconf'] ?></span></p>
+                                    <p>产品名称：<a href="http://www.lulutrip.com/tour/view/tourcode-<?= $booking['tourcode'] ?>" target="_blank"><?= $booking['product_title'] ?> (编号: <?= $booking['tourcode'] ?>)</a></p>
+                                    <p>出发日期：<span><?= $booking['departure_date'] ?></span></p>
+                                </dd>
+                            </dl>
+                            <dl id="operator">
+                                <dt>地接信息</dt>
+                                <dd>
+                                    <p>地接名称：<span><?= $supplier->operatorname ?></span></p>
+                                    <?php if(isset($voucher['operator_confirm_code'])): ?>
+                                    <p>地接确认号：<strong><?= $voucher['operator_confirm_code'] ?></strong></p>
+                                    <?php endif; ?>
+                                    <p>地接紧急电话：<span><?= $supplier->operatorecontact ?></span></p>
+                                    <?php if (isset($voucher['tour_guide_info'])): ?>
+                                    <p>当日导游信息：<span><?= $voucher['tour_guide_info'] ?></span></p>
+                                    <?php endif; ?>
+                                </dd>
+                            </dl>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="note">
+                            <dl>
+                                <dt>当日注意事项</dt>
+                                <dd>
+                                    <p>请为导游及司机小费、自费景点门票、餐费等其它个人费用准备足够的现金。</p>
+                                    <p>（自费景点数量及价格请以参团当日导游公示为准）</p>
+                                </dd>
+                                <div class="clear"></div>
+                            </dl>
+                        </div>
+                    </div>
+                    <div class="table-style" id="passenger">
+                        <h2>游客信息<span>Passenger List</span></h2>
+                        <p>当日游客手机：<span><?= $booking['customerpickupnote'] ?></span></p><br />
+                        <?php if (!$booking['one_day_tour']): ?>
+                        <?= Yii::$app->view->renderFile('@orderModule/views/order/voucher/traveller-info.html', ['rooms' => $rooms]);?>
+                        <?php else: ?>
+                        <?= Yii::$app->view->renderFile('@orderModule/views/order/voucher/traveller-info-one-day-tour.html', ['rooms' => $rooms]);?>
+                        <?php endif; ?>
+                    </div>
+                    <?php if ($booking['pickup_type'] == 1): ?>
+                    <?= Yii::$app->view->renderFile('@orderModule/views/order/voucher/flight-info.html', ['flight' => $flightInfo, 'voucher' => $voucher, 'supplier' => $supplier]);?>
+                    <?php elseif ($booking['pickup_type'] == 2): ?>
+                    <?= Yii::$app->view->renderFile('@orderModule/views/order/voucher/pickup-info.html', ['pickup' => $pickup, 'voucher' => $voucher, 'supplier' => $supplier]);?>
+                    <?php endif; ?>
+
+                    <div class="table-style style02" id="itinerary">
+                        <?= Yii::$app->view->renderFile('@orderModule/views/order/voucher/itineraries.html', ['booking' => $booking, 'departureDate' => $booking['departure_date'], 'itineraries' => $booking->itineraries, 'voucher' => $voucher, 'supplier' => $supplier]);?>
+                    </div>
+                    <?php if (is_array($booking->voucherHoteladdonbookeds) && count($booking->voucherHoteladdonbookeds) > 0): ?>
+                    <div class="table-style" id="hoteladdon">
+                        <?= Yii::$app->view->renderFile('@orderModule/views/order/voucher/hotel_add_ons.html', ['hotelAddOns' => $booking->voucherHoteladdonbookeds]);?>
+                    </div>
+                    <?php endif; ?>
+
+                    <div class="table-style  "  id="priceincludes">
+                        <h2>费用包含<span>Inclusions</span></h2>
+                        <div>
+                            <?= isset($voucher['priceincludes']) ? htmlspecialchars_decode($voucher['priceincludes']) : '' ?>
+                        </div>
+                    </div>
+                    <div class="table-style  " id="pricenotincludes">
+                        <h2>费用不包含<span>Exclusions</span></h2>
+                        <div>
+                            <?= isset($voucher['pricenotincludes']) ? htmlspecialchars_decode($voucher['pricenotincludes']) : '' ?>
+                        </div>
+                        <div class="notes mt20"> 请注意：如有自费项目，其数量及价格仅供您参考，任何调整请以出团当日实际项目及价格为准。</div>
+                    </div>
+                    <div class="table-style  " id="tournotes">
+                        <h2>注意事项<span>Important Notice</span></h2>
+                        <p>
+                            <?php $tourNotes = json_decode($voucher['tournotes'], true); ?>
+                            <?php if (is_array($tourNotes)): ?>
+                                <?php foreach($tourNotes as $tourNote): ?>
+                                    <?= htmlspecialchars_decode($tourNote['content']) ?>
+                                <?php endforeach; ?>
+                            <?php else:?>
+                                <?= htmlspecialchars_decode($voucher['tournotes']) ?>
+                            <?php endif; ?>
+                        </p>
+                    </div>
+                </div>
+                <?= Yii::$app->view->renderFile('@orderModule/views/order/voucher/contact-info.html', ['serviceTel' => $serviceTel]);?>
+                <div style="text-align: center;">
+                    <img src="http://llt.quimg.com/llt-static/images/email/email_foot2.jpg" width="100%" alt="路路行全体成员祝您旅途愉快！"/>
+                </div>
+                <div style="background:#fff; text-align: center;">
+                    <img src="http://llt.quimg.com/llt-static/images/email/email_foot3.jpg" width="581" height="80" alt="路路行旅行网 将世界旅行送至你的指尖！"/>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="fixed_r_navbar2" id="fixed_r_navbar2"> <div class="icon"><a href="javascript:backToTop();" class="backtotop" style=""></a></div> </div>
+</body>
+</html>

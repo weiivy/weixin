@@ -1,0 +1,34 @@
+<?php
+//出发城市
+$startLocation = $data['basic']['startLocation'];
+$cities = [];
+foreach($startLocation as $val){
+    $cities[] = $val['cnName'];
+}
+?>
+<div class="personnel-detail">
+  <div class="personnel-detail-tit">订购信息</div>
+  <div class="personnel-detail-info">
+    <div class="info-li">
+      <span class="info-li-t">路线名称：</span>
+      <div class="info-li-cont"><?=implode('、', $cities)?>出发 <?=$data['translation']['title']?></div>
+    </div>
+    <div class="info-li">
+      <span class="info-li-t">出行日期：</span>
+      <div class="info-li-cont"><?=$data['startDate']?>出发，<?=$data['endDate']?>返回</div>
+    </div>
+    <div class="info-li">
+      <span class="info-li-t">人员信息：</span>
+      <div class="info-li-cont">
+        <p>共计<?=$data['adCount'] + $data['kdCount']?>人</p>
+          <?php foreach($data['rooms'] as $rIdx => $room):?>
+              <p>
+                  <?php if($data['basic']['duration'] > 1):?>房间<?=$rIdx + 1?>：<?php endif;?><?=$room['adNum']?>成人
+                  <?php if(isset($room['kdNum']) && $room['kdNum'] > 0):?>、<?=$room['kdNum']?>儿童<?php endif;?>
+                  <?php if(isset($room['pf']) && $room['pf'] > 0):?>、<?=$room['pf']?>配房<?php endif;?>
+              </p>
+          <?php endforeach;?>
+      </div>
+    </div>
+  </div>
+</div>

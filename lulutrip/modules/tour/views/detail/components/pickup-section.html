@@ -1,0 +1,54 @@
+<?php if($tourData['basic']['pickupType']['code'] == 2 && !empty($tourData['basic']['points'])): ?>
+<?php
+    //如果所有上车地点都没有 endTime，则 返回时间 整个一列都不显示
+    $showReturnTime = false;
+    foreach((array)$tourData['basic']['points'] as $pvalue){
+        if($pvalue['endTime'] != '00:00:00' && !empty($pvalue['endTime']))  $showReturnTime = true;
+    }
+?>
+<i id="geton_d" class="anchor-item anchor-has-sub"></i>
+<div class="detail-section" id="pickupSection">
+  <div class="section-title">集散地点</div>
+  <div class="section-content">
+      <div>
+          <a class="get-car-point" href="javascript:;" data-index="0">地图查找最近的上车点</a>
+      </div>
+      <div>
+          <table class="info-table">
+              <tr>
+                  <th class="strong">上车城市</th>
+                  <th class="strong">上车地点</th>
+                  <th class="strong">上车时间</th>
+                  <?php if($showReturnTime): ?>
+                  <th class="strong">返回时间</th>
+                  <?php endif; ?>
+              </tr>
+              <?php foreach((array)$tourData['basic']['points'] as $pkey => $point):?>
+              <tr>
+                  <td><?=$point['info']['cityCN'] ?></td>
+                  <td>
+                      <p>
+                          <?php if(!empty($point['info']['picUrl'])): ?>
+                          <a class="get-point-image" data-image="<?=$point['info']['picUrl'] ?>" href="javascript:;"><?=$point['info']['locationCN'] ?></a>
+                          <?php else: ?>
+                          <span class="get-point-image" data-image="<?=$point['info']['picUrl'] ?>"><?=$point['info']['locationCN'] ?></span>
+                          <?php endif; ?>
+                      </p>
+                      <?php if(!empty($point['info']['address'])): ?>
+                      <p><a class="get-point-map" href="javascript:;" data-index="<?=$pkey ?>" data-address="<?=$point['info']['address'] ?>"><?=$point['info']['address'] ?></a></p>
+                      <?php endif; ?>
+                      <?php if(!empty($point['remarkCN'])): ?>
+                      <p class="get-point-notice"><span><?=$point['remarkCN'] ?></span></p>
+                      <?php endif; ?>
+                  </td>
+                  <td><?=$point['startTime'] ?></td>
+                  <?php if($showReturnTime): ?>
+                  <td><?=$point['endTime'] ?></td>
+                  <?php endif; ?>
+              </tr>
+              <?php endforeach;?>
+          </table>
+      </div>
+  </div>
+</div>
+<?php endif; ?>

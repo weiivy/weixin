@@ -1,0 +1,82 @@
+<h2>行程及酒店信息<span>Itinerary and Hotel Information</span></h2>
+<!-- 最初未更新过电子凭证，按地接设置的来-->
+<?php $isShowOpIti = $voucher->use_op_iti || $voucher->update_time == '0000-00-00 00:00:00'; ?>
+<?php if ($isShowOpIti && $supplier->parse_ic == 'xls' && $booking->op_itinerary): ?>
+    <style type="text/css">
+        .btn01_op_iti { display:block; width: 103px; height: 22px; line-height: 22px; text-align: center;font-size: 12px; background: #fa5800; color: #fff; text-decoration: none; border:2px solid #fa5800; border-radius: 5px;}
+        .op_iti td{border:#cccccc solid; border-width:0px 1px 1px 0px; padding:10px 0px;}
+        .op_iti table{border:solid #cccccc; border-width:1px 0px 0px 1px;}
+    </style>
+    <p class="noprint">
+        <a href="<?= Yii::$app->params['service']['ssl'] ?>/my/showOpItiContent?bookingconf=<?= $booking->bookingconf?>" class="btn01_op_iti" title="粘贴式行程，点击新页面查看" target="_blank">查看详细行程</a>
+    </p>
+<?php elseif ($isShowOpIti && $supplier->parse_ic == 'pdf' && $booking->op_itinerary_attach): ?>
+    <p class="noprint">
+        <a href="<?= Yii::$app->params['service']['www'] ?>/<?= $booking->op_itinerary_attach ?>" class="btn01_op_iti" title="点击新页面查看" target="_blank">查看详细行程</a>
+    </p>
+<?php else: ?>
+    <table border="1" cellspacing="0" cellpadding="0" bordercolor="#e4e4e4">
+        <col width="14%">
+        <col width="86%">
+        <tr>
+            <th scope="col"> 行程日期 </th>
+            <th scope="col"> 行程内容 </th>
+        </tr>
+        <?php foreach ($itineraries as $itinerary): ?>
+        <tr>
+            <td><b>Day <?= $itinerary['dayno'] ?></b> <i><?= date('Y-m-d', strtotime("+ " . ($itinerary['dayno'] - 1) . " days", strtotime("{$departureDate}"))) ?></i></td>
+            <td>
+                <p><span> 行程安排： </span><b><?= $itinerary['title_cn'] ?></b></p>
+                <?php if(is_array($itinerary['activity']) && count($itinerary['activity']) >= 1): ?>
+                <p>
+                    <span> 项目安排： </span>
+                    <?php foreach($itinerary['activity'] as $activity): ?>
+                    <?php echo $activity['title'] ?><br />
+                    <?php endforeach; ?>
+                </p>
+                <?php endif; ?>
+                <?php $hotels = json_decode($itinerary['hotels']); ?>
+                <?php if (is_array($hotels) && count($hotels) > 0): ?>
+                <p><span>入住酒店：</span>
+
+                    <?php foreach ($hotels as $hotel): ?>
+                        <?= $hotel ?><br/>
+                    <?php endforeach; ?>
+                </p>
+                <?php endif; ?>
+                <?php if (!empty($itinerary->hotelinfo->address)): ?>
+                <p>
+                    <span>酒店地址：</span>
+                    <?= $itinerary->hotelinfo->address ?>
+                </p>
+                <?php endif; ?>
+                <?php if (!empty($itinerary->hotelinfo->telephone)): ?>
+                <p>
+                    <span>酒店电话：</span>
+                    <?= $itinerary->hotelinfo->telephone ?>
+                </p>
+                <?php endif; ?>
+                <?php if (!empty($itinerary->hotelinfo->confirm)): ?>
+                <p>
+                    <span>确认号：</span>
+                    <strong><?= $itinerary->hotelinfo->confirm ?></strong>
+                </p>
+                <?php endif; ?>
+                <?php if (!empty($itinerary->hotelinfo->gather_time)): ?>
+                <p>
+                    <span>集合时间：</span>
+                    <?= $itinerary->hotelinfo->gather_time ?>
+                </p>
+                <?php endif; ?>
+                <?php if (!empty($itinerary->remark)): ?>
+                <p>
+                    <span>行程备注：</span>
+                    <strong><?= nl2br($itinerary->remark) ?></strong>
+                </p>
+                <?php endif; ?>
+            </td>
+        </tr>
+        <?php endforeach; ?>
+    </table>
+    <div class="notes mt20"> 请注意：您的行程已确认，行程顺序及酒店信息也许会有更新，以最终确认为准。 </div>
+<?php endif; ?>

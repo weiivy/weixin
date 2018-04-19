@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\">
+<HTML>
+<HEAD>
+<TITLE>TOUR ASSIST FORM</TITLE>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<STYLE TYPE="text/css">
+body {
+	font-size: 14px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+td, th {font-size:12px;}
+table.heading {width:100%; background-color:orange;font-size:10px;}
+/* RIGHT CONTENTS */
+.RightTable {
+	border: 1px solid #828282;
+	/* width: 800px;*/
+	width: 98%;
+	margin: 8px auto;
+}
+.RightTable td {
+	border: 1px solid #EFEFEF;
+	padding: 5px;
+	line-height: 22px;
+	word-break: break-all;
+}
+.RightTable .TitleTd {
+	background-color: #EEEEEE;
+	padding: 8px 5px;
+	font-size: 16px;
+	font-weight: bold;
+}
+.RightTable .TdStyleBold {
+	background-color: #F8F8F8;
+	padding: 6px 5px;
+	font-weight: bold;
+}
+.RightTable .TdStyle1 {
+	background-color: #F8F8F8;
+	text-align: center;
+}
+
+</STYLE>
+</HEAD>
+
+<BODY>
+
+<h1>Tour Waiting List Form</h1>
+<h3>Lulutrip, Inc. - 2890 Zanker Road, Suite 203, San Jose CA 95134-2118, USA</h3>
+<h3>Tel: <?=\Yii::$app->params['service']['tel_us'] ?> - Fax: <?=\Yii::$app->params['service']['fax_us'] ?></h3>
+<h4>Tour: <?=$Tour['tourtitle_cn'] ?>  (<?=$Tour['tourcode'] ?>)</h4>
+
+                <table class="RightTable">
+                    <tr>
+                        <td colspan="2" class="TitleTd">行程帮助申请详情</td>
+                    </tr>
+                    <tr>
+                    	<td width="20%" align="right" class="TdStyleBold">来源团</td>
+                        <td width="80%"><a href="<?=\Yii::$app->params['service']['www']?>/tour/view/tourcode-<?=$Tour['tourcode'] ?>" target="_blank"><?=$Tour['tourtitle_cn'] ?></a> (团号: <?=$Tour['tourcode'] ?>)</td>
+                    </tr>
+                    <tr>
+                    	<td width="20%" align="right" class="TdStyleBold">姓名</td>
+                        <td width="80%"><?=$Tour['name'] ?></td>
+                    </tr>
+                    <tr>
+                    	<td width="20%" align="right" class="TdStyleBold">电话</td>
+                        <td width="80%"><?=$Tour['mobile'] ?></td>
+                    </tr>
+                    <tr>
+                    	<td width="20%" align="right" class="TdStyleBold">电子邮件</td>
+                        <td width="80%"><?=$Tour['email'] ?></td>
+                    </tr>
+                    <tr>
+                    	<td width="20%" align="right" class="TdStyleBold">希望入团时间</td>
+                        <td width="80%"><?=$Tour['startdate'] ?></td>
+                    </tr>
+                    <tr>
+                    	<td width="20%" align="right" class="TdStyleBold">参团人数</td>
+                        <td width="80%">成人：<?=$Tour['adult_qty'] ?>人 儿童：<?=$Tour['child_qty'] ?>人</td>
+                    </tr>
+                </table>
+
+
+</BODY>
+</HTML>

@@ -1,0 +1,60 @@
+<div id="topbar" class="topbar">
+    <div class="topbar-inner clearfix">
+        <!--品牌logo-->
+        <div class="topbar-logo clearfix">
+            <span class="logo-lulutrip">
+              <i></i>
+            </span>
+            <a class="logo-woqu" href="http://www.woqu.com/" target="_blank">
+                <i></i>
+            </a>
+            <a class="logo-globerouter" href="https://www.globerouter.com/" target="_blank">
+                <i></i>
+            </a>
+            <!--<span class="logo-lulutrip"><img src="http://llt.quimg.com/llt-static/images/common/topbar-logo1.png"></span>
+            <a class="logo-woqu" href="http://www.woqu.com/" target="_blank"><img src="http://llt.quimg.com/llt-static/images/common/topbar-logo2.png"></a>
+            <a class="logo-globerouter" href="https://www.globerouter.com/" target="_blank"><img src="http://llt.quimg.com/llt-static/images/common/topbar-logo3.png"></a>-->
+        </div>
+        <div class="topbar-list clearfix">
+            <div class="tb-login">
+                <?php if(!isset($members['memberid'])): ?>
+                <!-- 未登录 -->
+                <span class="divide">Hi，最近想去哪玩？</span>
+                <a rel="nofollow" class="border" href="<?=\Yii::$app->params['service']['ssl']?>/user/login">登录</a>
+                <a rel="nofollow" href="<?=\Yii::$app->params['service']['ssl']?>/user/register">注册</a>
+                <?php else:?>
+                <!-- 已登录 -->
+                <span class="divide">Hi&nbsp;&nbsp;&nbsp;<?php echo $members['screenname']?></span>
+                <a href="<?=\Yii::$app->params['service']['ssl']?>/my/home">[会员中心]</a>
+                <a href="<?=\Yii::$app->params['service']['ssl']?>/user/logout">[退出]</a>
+                <?php endif;?>
+            </div>
+        </div>
+    </div>
+</div>
+<header id="header" class="header">
+    <div class="header-inner" id="headerInner">
+        <div class="wrap clearfix">
+            <a class="logo" href="http://www.lulutrip.com/america"></a>
+            <div class="header-tel">
+                <p class="tel-tips">全球7x24小时客服电话</p>
+                <p class="tel-number"><?= \Yii::$app->helper->getCustomerServicePhone();?></p>
+                <ul class="header-tel-list">
+                    <h2>全球 7x24小时客服电话</h2>
+                    <?php if(!empty($serviceTel)):?>
+                    <?php $area = array("NA", "CN", "EU", "AU");?>
+                    <?php foreach($area as $item):?>
+                    <ul>
+                        <?php foreach($serviceTel as $tel):?>
+                        <?php if($item == $tel['code']):?>
+                        <li><span><?= $tel['areaname']?>：</span><?= $tel['phone']?></li>
+                        <?php endif;?>
+                        <?php endforeach;?>
+                    </ul>
+                    <?php endforeach;?>
+                    <?php endif;?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>

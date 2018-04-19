@@ -1,0 +1,28 @@
+<div class="contents_right_inro ">
+    <p>您已阅读并同意<a href="http://www.lulutrip.com/page/terms_and_conditions" target="_blank">《路路行旅游订购网客户协议》</a>
+        <br/>
+        You have read and agreed <a href="http://www.lulutrip.com/page/terms_and_conditions" target="_blank">Lulutrip Terms and Conditions</a></p>
+</div>
+<div class="contact-us">
+    <h2>Lulutrip全球24小时客服电话</h2>
+    <div class="phone-list">
+        <?php $serviceTel = \Yii::$app->helper->getCustomerServicePhoneList()['data']; ?>
+        <?php if(!empty($serviceTel)):?>
+        <?php $area = array('NA', 'CN', 'EU', 'AU');?>
+        <?php foreach ($area as $item):?>
+        <dl>
+            <?php foreach ($serviceTel as $tel):?>
+            <?php if($tel['code'] == $item):?>
+            <dt><?= $tel['areaname']?></dt>
+            <dd><?= $tel['phone']?></dd>
+            <?php endif;?>
+            <?php endforeach;?>
+        </dl>
+        <?php endforeach;?>
+        <?php endif;?>
+    </div>
+    <div class="clear"></div>
+</div>
+<div style="background:#f2f2f2; text-align: center;">
+    <img src="http://llt.quimg.com/llt-static/images/email/email_foot1.jpg" alt="路路行全体成员祝您旅途愉快！"/>
+</div>

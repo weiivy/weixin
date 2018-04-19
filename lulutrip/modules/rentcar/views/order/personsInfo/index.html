@@ -1,0 +1,85 @@
+<?= $this->registerJsFile(Yii::$app->controller->staticUrl . "order/rentcar/contactsinfo/index.entry.js");?>
+<?= $this->registerCssFile(Yii::$app->controller->staticUrl . "order/rentcar/contactsinfo/index.entry.css", ['position'=>$this::POS_END]);?>
+
+<!-- 主体内容 -->
+<form action="/rental-car/booking/step2" method="post">
+    <input type="hidden" name="shoppingId" value="<?= $shoppingId ?>">
+    <div id="content" class="content clearfix">
+        <div id="orderStep"></div>
+        <div class="clearfix">
+            <div class="order-info-left">
+                <div class="person-list">
+                    <h3 class="list-tit contact-tit">驾驶员信息</h3>
+                    <?= Yii::$app->view->renderFile('@rentcarModule/views/order/personsInfo/person-list.html', ['phoneAreaCodes' => $phoneAreaCodes])?>
+                </div>
+                <div class="subscriber-info" id="subscriberInfo">
+                    <div class="person-list">
+                        <h3 class="list-tit contact-tit">订单联系人信息</h3>
+                        <div class="J-contactList">
+                            <div class="person-group">
+                                <div class="item">
+                                    <div class="th"><i>*</i>手机号码：</div>
+                                    <div class="td">
+                                        <select name="contactInfo[areaCode]">
+                                            <option value="">选择区号</option>
+                                            <?php foreach($phoneAreaCodes as $area => $code):?>
+                                            <?php if(isset($members['phonearea']) && $members['phonearea'] == $code):?>
+                                            <option value="<?= $code?>" selected>+<?= $code?>(<?= $area?>)</option>
+                                            <?php else:?>
+                                            <option value="<?=$code?>">+<?=$code?>(<?=$area?>)</option>
+                                            <?php endif;?>
+                                            <?php endforeach;?>
+                                        </select>
+                                        <input type="text" class="phone-box required" name="contactInfo[phoneNumber]" value="<?php if(isset($members['phone1'])):?><?=$members['phone1']?><?php endif;?>">
+                                        <div class="check-tips">手机号码不正确！</div>
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="th"><i>*</i>姓名：</div>
+                                    <div class="td">
+                                        <input type="text" class="input required" name="contactInfo[fullName]" value="<?php if(isset($members['name'])):?><?=$members['name']?><?php endif;?>">
+                                    </div>
+                                </div>
+                                <div class="item">
+                                    <div class="th"><i>*</i>邮箱：</div>
+                                    <div class="td">
+                                        <input type="text" class="email-box" name="contactInfo[emailAddress]" value="<?php if(isset($members['email'])):?><?=$members['email']?><?php endif;?>">
+                                        <div class="check-tips">邮箱格式不正确！</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="person-list remark">
+                    <h3 class="list-tit remk-tit">订单备注</h3>
+                    <div class="item">
+                        <textarea name="remarks" rows="" cols="" placeholder="订单备注"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="order-info-right">
+                <div class="cost-detail" id="costDetail">
+                    <div class="cost-detail-list">
+                        <div class="cost-detail-tit">费用明细</div>
+                        <div class="cost-detail-li" id="cost-detail-li"></div>
+                        <div class="cost-detail-discount" id="cost-detail-discount"></div>
+                        <div class="cost-detail-total"  id="cost-detail-total"></div>
+                    </div>
+                    <div class="cost-detail-btn">
+                        <a class="J-btn-next" href="javascript:;">下一步</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="um-pd-cover J-umPdCover"></div>
+    </div>
+</form>
+<!-- 确认密码 -->
+<div class="confirm-password" id="confirmPassword"></div>
+<script type="text/javascript">
+    var globalData = {
+        classify : 'rental-car',
+        shoppingId: '<?= $shoppingId ?>'
+    };
+</script>

@@ -1,0 +1,30 @@
+<h2>加订酒店<span>Hotel Add-ons</span></h2>
+<?php if (isset($voucher['use_op_iti'])): ?>
+<p>请参考上方的行程及酒店信息</p>
+<?php else: ?>
+<table border="1" cellspacing="0" cellpadding="0" bordercolor="#e4e4e4">
+    <col width="40%">
+    <col width="60%">
+    <tr>
+        <th scope="col">入住日期</th>
+        <th scope="col"> 酒店信息 </th>
+    </tr>
+    <?php foreach ((array)$hotelAddOns as $hotelAddOn): ?>
+    <tr>
+        <td><p>入住日期：<?= $hotelAddOn['indate'] ?></p>
+            <p>离店日期：<?= $hotelAddOn['outdate'] ?></td>
+        <td><p>酒店名称：<?= $hotelAddOn['hfullname_en'] ?></p>
+            <p>酒店地址：<?= $hotelAddOn['address'] ?></p>
+            <p>酒店电话：<?= $hotelAddOn['telephone'] ?></p>
+            <p style="padding-left:60px;position:relative;min-height:22px">
+                <span style="position:absolute; left:0px; top:0;">房间类型：</span>
+                <?php foreach ((array)$hotelAddOn['rooms']['alisaCnData'] as $roomType => $num): ?>
+                <?= $roomType ?> <?= $num ?>间
+                <?php endforeach; ?>
+            </p>
+            <p>酒店确认号：<strong><?= $hotelAddOn['confirm_code'] ?></strong></p>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+<?php endif; ?>

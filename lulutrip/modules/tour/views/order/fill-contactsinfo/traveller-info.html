@@ -1,0 +1,81 @@
+<div class="person-group J-personGroup">
+    <input type="hidden" name="travellerInfo[<?= $travellerIndex ?>][roomIndex]" value="<?= $roomIndex ?>">
+    <input type="hidden" name="travellerInfo[<?= $travellerIndex ?>][isAdult]" value="<?= $isAdult ?>">
+    <?php if($isAdult): ?>
+      <h4>旅客<?= $travellerIndex ?> - 成人<?php if ($travellerIndex == 1): ?><span>（第一位旅客默认为联系人，填写的手机号请保持联系畅通）</span><?php endif; ?></h4>
+    <?php else: ?>
+    <h4>旅客<?= $travellerIndex ?> - 儿童</h4>
+    <?php endif; ?>
+    <?php if ($isAdult && $travellerIndex == 1): ?>
+    <div class="item">
+        <div class="th"><i>*</i>当日手机号码：</div>
+        <div class="td">
+            <select name="travellerInfo[<?= $travellerIndex ?>][areaCode]">
+                <option value="">选择区号</option>
+                <?php foreach($phoneAreaCodes as $area => $code):?>
+                <option value="<?=$code?>">+<?=$code?>(<?=$area?>)</option>
+                <?php endforeach;?>
+            </select>
+            <input type="text" name="travellerInfo[<?= $travellerIndex ?>][phoneNumber]" class="phone-box" placeholder="手机号码">
+            <div class="check-tips">手机号码不正确！</div>
+        </div>
+    </div>
+    <?php endif; ?>
+    <div class="item">
+        <div class="th"><i>*</i>姓（拼音/英文）：</div>
+        <div class="td">
+            <input type="text" name="travellerInfo[<?= $travellerIndex ?>][lastName]" class="input required" placeholder="姓（拼音/英文）">
+            <span>名（拼音/英文）：</span>
+            <input type="text" name="travellerInfo[<?= $travellerIndex ?>][firstName]" class="input required" placeholder="名（拼音/英文）">
+            <p class="warn">
+                填写的姓名须与护照内一致，
+                <span>护照姓名位置示例<img src="//www.quimg.com/a1327/img/page/order/passport-demo.png" alt="护照" width="313" height="195"></span>
+            </p>
+        </div>
+    </div>
+    <?php if ($birthdayIsRequired != 1 or !$isAdult): ?>
+    <div class="item">
+        <div class="th"><?php if($nationalityIsRequired == 3 or !$isAdult): ?><i>*</i><?php endif;?>出生年月：</div>
+        <div class="td">
+            <?php if ($isAdult): ?>
+            <input type="text" name="travellerInfo[<?= $travellerIndex ?>][birthday]" class="calendar-input <?php if($birthdayIsRequired == 2): ?>travel-optional<?php endif; ?>" placeholder="出生年月">
+            <?php else: ?>
+            <input type="text" name="travellerInfo[<?= $travellerIndex ?>][birthday]" class="calendar-input" placeholder="出生年月">
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+    <div class="item">
+        <div class="th"><i>*</i>性别：</div>
+        <div class="td">
+            <label for="man<?= $travellerIndex ?>">
+                <input type="radio" name="travellerInfo[<?= $travellerIndex ?>][sex]" id="man<?= $travellerIndex ?>" value="man"<?php if (!($pf && $roomSex == 'WOMAN')): ?> checked<?php endif; ?><?php if ($pf && $roomSex == 'WOMAN'): ?> disabled<?php endif; ?>/>男
+            </label>
+            <label for="woman<?= $travellerIndex ?>">
+                <input type="radio" name="travellerInfo[<?= $travellerIndex ?>][sex]" id="woman<?= $travellerIndex ?>" value="woman"<?php if ($pf && $roomSex == 'WOMAN'): ?> checked<?php endif; ?><?php if ($pf && $roomSex == 'MAN'): ?> disabled<?php endif; ?>/>女
+            </label>
+            <?php if ($pf && $roomSex == 'MAN'): ?>
+            <span class="sex_pf">该产品配房限男性</span>
+            <?php elseif ($pf && $roomSex == 'WOMAN'): ?>
+            <span class="sex_pf">该产品配房限女性</span>
+            <?php endif; ?>
+        </div>
+    </div>
+    <?php if ($nationalityIsRequired != 1): ?>
+    <div class="item">
+        <div class="th"><?php if($nationalityIsRequired == 3): ?><i>*</i><?php endif;?>国籍：</div>
+        <div class="td">
+            <input type="text" name="travellerInfo[<?= $travellerIndex ?>][nationality]" value="" class="input required <?php if($nationalityIsRequired == 2): ?>travel-optional<?php endif; ?>" placeholder="国籍">
+        </div>
+    </div>
+    <?php endif; ?>
+    <?php if ($passportNumberIsRequired != 1): ?>
+    <div class="item">
+        <div class="th"><?php if($nationalityIsRequired == 3): ?><i>*</i><?php endif;?>护照号码：</div>
+        <div class="td">
+            <input type="text" name="travellerInfo[<?= $travellerIndex ?>][passportNumber]" class="input required <?php if($passportNumberIsRequired == 2): ?>travel-optional<?php endif; ?>" placeholder="护照号码">
+            <p class="warn">为了您的顺利出行，请确认您的行程结束时间至少比证件有效期早6个月</p>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>

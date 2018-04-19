@@ -1,0 +1,13 @@
+<?php foreach ($travellers as $key => $traveller): ?>
+<?= Yii::$app->view->renderFile('@tourModule/views/order/fill-contactsinfo/traveller-info.html', [
+  'roomIndex' => $traveller['roomIndex'],
+  'isAdult' => $traveller['isAdult'],
+  'pf' => $traveller['pf'],
+  'roomSex' => $roomSex,
+  'travellerIndex' => $key + 1,
+  'birthdayIsRequired' => $birthdayIsRequired,
+  'nationalityIsRequired' => $nationalityIsRequired,
+  'passportNumberIsRequired' => $passportNumberIsRequired,
+  'phoneAreaCodes' => $phoneAreaCodes
+])?>
+<?php endforeach; ?>

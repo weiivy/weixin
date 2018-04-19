@@ -1,0 +1,6 @@
+<?php $fData = Yii::$app->params['formData'];?>
+<div class="info-sales">
+    <?php foreach ($advisers as $adviser):?>
+    <label><input type="radio" name="adviser" value="<?=$adviser['id']?>"<?php if(isset($fData['adviser']) && $fData['adviser'] == $adviser['id']):?>checked<?php endif;?>><span><?=$adviser['cart_no']?> <?=$adviser['name_en']?></span></label>
+    <?php endforeach;?>
+</div>

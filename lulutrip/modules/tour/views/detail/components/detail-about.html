@@ -1,0 +1,115 @@
+<?php
+    $featureTags = [];
+    $saleTags = [];
+    foreach((array)$tourData['translation']['tags'] as $tag){
+        if (empty($tag['cnName']) || !in_array(array_sum($tag['display']), [6,8,9])) {
+            continue;
+        }
+        if ($tag['cnName'] == '订即确认') {
+            continue;
+        }
+        if ($tag['filterType'] == 'F_FEATURE' or $tag['filterType'] == 'F_SERVICE') {
+            $featureTags[] = $tag;
+        }
+        if ($tag['filterType'] == 'F_SALE' && (in_array(0, $tag['platform']) || in_array(1, $tag['platform']))){
+            $saleTags[] = $tag;
+        }
+    }
+?>
+
+<div class="about clearfix">
+    <div class="detail-about-left">
+        <!-- 图片轮播模块 -->
+        <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/image-slide.html', ['photos' => $tourData['photos']]);?>
+    </div>
+    <div class="detail-about-right">
+        <h1 class="detail-title"><?= $tourData['translation']['title'] ?>&nbsp;&nbsp;&nbsp;编号：<?= $tourData['basic']['productCode'] ?></h1>
+        <div class="tags">
+            <?php foreach($featureTags as $tag): ?>
+            <span class="J-aboutInfoTip" data-tip="<?= $tag['descCN'] ?>"><?= $tag['cnName'] ?></span>
+            <?php endforeach; ?>
+            <em class="J-ga-data" ga-data="200103"></em>
+        </div>
+        <div class="price">
+            <?php if($tourData['sellOut'] && $tourData['startPrice'] <= 0): ?>
+            <div style="padding-left: 22px;"><?='已售罄' ?></div>
+            <?php else: ?>
+            <span class="real"><?php if(Yii::$app->controller->discounAfterPirce):?><b>折后价：</b><?php endif;?><strong><i><?= $currency ?></i><?= ceil($tourData['startPrice'] * $offPercent) ?></strong>起/人</span>
+            <?php if ($offPercent < 1): ?>
+            <span class="del">
+              <?= $currency ?><i><?= $tourData['startPrice'] ?></i>
+              <em><?= $offPercent * 10 ?>折</em>
+            </span>
+            <?php endif; ?>
+            <span class="ins J-aboutInfoTip" data-tip="1、此价为最低每人团费的折后价（已含税）|2、价格按不同出发日期、房型和酒店星级、所选附加服务而有所差异">起价说明</span>
+            <?php endif; ?>
+            <!-- <span class="code">编号：<?= $tourData['basic']['productCode'] ?></span> -->
+            <!--<img src="http://s01.quimg.com/images/liebiao_2015/bg_recommend.jpg" alt="夏季风" title="夏季风" height="70">-->
+        </div>
+        <?php if(count($saleTags) > 0 || count($discountInfo) > 0): ?>
+        <div class="discount">
+            <span class="th">优惠活动</span>
+            <p>
+                <!--折后价-->
+                <?php foreach($discountInfo as $discount):?>
+                    <span class="J-aboutInfoTip<?php if($discount['is_all'] != 1):?> J-discount-time<?php endif;?>" <?php if($discount['is_all'] != 1):?>data-starttime="<?= date('Y-m-d H:i:s', time())?>" data-endtime="<?= $discount['endTime'] ?>"<?php endif;?> data-tip="<p class='tit'><strong><?= $discount['title'] ?></strong></p><p><em>活动期限：</em><?= $discount['validTime'] ?><?php if($discount['is_all'] != 1):?>(剩余<span class='group-day'>0</span>天<span class='group-hour'>0</span>小时<span class='group-minute'>0</span>分<span class='group-second'>0</span>秒)<?php endif;?></p><p><em>活动力度：</em><?= $discount['strength'] ?></p><p><em>使用方法：</em><?= $discount['instructions'] ?></p><?php if(isset($discount['useLimit'])):?><p><em>参与条件：</em><?= $discount['useLimit'] ?></p><?php endif;?>"><?= $discount['title'] ?></span>
+                <?php endforeach; ?>
+
+                <!--优惠券折扣-->
+                <?php foreach($saleTags as $tag): ?>
+                <span class="J-aboutInfoTip" data-tip="<?= $tag['descCN'] ?>"><?= $tag['cnName'] ?></span>
+                <?php endforeach; ?>
+            </p>
+        </div>
+        <?php endif;?>
+        <?php if ($tourData['basic']['immediateConfirm']): ?>
+        <div class="notice">
+            <span class="th">订购须知</span>
+            <p>
+                <span data-tip="订即确认">订即确认</span>
+                <?php if ($tourData['basic']['immediateConfirmDays'] > 0): ?>
+                提前 <?= $tourData['basic']['immediateConfirmDays'] ?> 天完成订购，可实现即时确认（0秒确认订单，100%成团，不耽误机票订购）
+                <?php else: ?>
+                即时确认（0秒确认订单，100%成团，不耽误机票订购）
+                <?php endif; ?>
+            </p>
+        </div>
+        <?php endif; ?>
+        <?php
+            $startLocationNames = $endLocationNames = [];
+            foreach ((array)$tourData['basic']['startLocation'] as $startLocation) {
+                $startLocationNames[] = $startLocation['cnName'];
+            }
+            foreach ((array)$tourData['basic']['endLocation'] as $endLocation) {
+                $endLocationNames[] = $endLocation['cnName'];
+            }
+            //$startLocationStr = implode('、', $startLocationNames);
+            //$endLocationStr = implode('、', $endLocationNames);
+
+            $serviceLanguageNames = [];
+            foreach ((array)$tourData['basic']['serviceLanguage'] as $serviceLanguage) {
+                $serviceLanguageNames[] = $serviceLanguage['cnName'];
+            }
+            $serviceLanguageStr = implode('、', $serviceLanguageNames);
+        ?>
+        <div class="info">
+            <p>
+                <span><i>参团城市</i>
+                    <?php foreach($startLocationNames as $startLocation): ?>
+                    <span><?= $startLocation ?></span>
+                    <?php endforeach; ?>
+                </span>
+                <span><i>离团城市</i>
+                    <?php foreach($endLocationNames as $endLocation): ?>
+                    <span><?= $endLocation ?></span>
+                    <?php endforeach; ?>
+                </span>
+                <span><i>行程天数</i><span><?= $tourData['basic']['duration'] ?> 天</span></span>
+            </p>
+            <p>
+                <span><i>参团方式</i><span><?= $tourData['basic']['pickupType']['cnName'] ?></span></span>
+                <span><i>服务语言</i><span><?= $serviceLanguageStr ?></span></span>
+            </p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+
+<?= $this->registerCssFile(Yii::$app->controller->staticUrl . "detail/tour/index.entry.css");?>
+<?= $this->registerJsFile(Yii::$app->controller->staticUrl . "detail/tour/index.entry.js");?>
+
+<!-- 主体内容 -->
+<div id="content" class="content">
+
+    <!-- 面包屑 -->
+    <div class="crumbs">
+        <?php if(!empty($breadData)):?>
+            <?php foreach($breadData as $key => $breads):?>
+                <?php if(!empty($breads['url'])):?>
+                <a href="<?=$breads['url']?>"><?=$breads['name']?></a>
+                <?php else:?>
+                <?=$breads['name']?><a></a>
+                <?php endif;?>
+            <?php endforeach;?>
+        <?php endif; ?>
+        <span>编号：<?= $tourData['basic']['productCode'] ?></span>
+    </div>
+
+    <!-- 头图及价格相关 -->
+    <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/detail-about.html', ['tourData' => $tourData, 'currency' => $currency, 'offPercent' => $offPercent, 'discountInfo' => $discountInfo]);?>
+        <?php if($tourData['basic']['reconfirm'] != 1):?>
+        <!-- 价格日历模块 -->
+        <div class="price J-priceDatePicker"></div>
+    <?php else:?>
+        <!-- 亲友小团二次询价 -->
+        <div class="privatetour-price" id="privateTourPrice">
+            <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/privatetour-price.html', ['tourData' => $tourData]);?>
+        </div>
+    <?php endif;?>
+
+    <!-- 内容区域导航 -->
+    <div class="detail-nav-wrap">
+        <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/detail-nav.html', ['tourData' => $tourData, 'commentCount' => $commentCount, 'luluTopicCount' => $luluTopicCount, 'questionCount' => $questionCount]);?>
+    </div>
+    <!-- 内容区域 -->
+    <div class="detail-info clearfix">
+        <div class="detail-info-left">
+            <!-- 行程介绍 -->
+            <i id="travelSection" class="anchor-item anchor-has-sub"></i>
+            <div>
+                <!-- 行程特色 -->
+                <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/travel-special-section.html', ['tourData' => $tourData]);?>
+                <!-- 行程明细 -->
+                <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/travel-detail-section.html', ['tourData' => $tourData]);?>
+            </div>
+            <!-- 上车地点 -->
+            <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/pickup-section.html', ['tourData' => $tourData]);?>
+            <!-- 费用明细 -->
+            <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/fee-section.html', ['tourData' => $tourData]);?>
+            <!-- 订购须知 -->
+            <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/notice-section.html', ['tourData' => $tourData]);?>
+            <!-- 团友评价 -->
+            <?php if ($commentCount > 0): ?>
+            <i id="group_evaluation" class="anchor-item"></i>
+            <div class="detail-section" id="commentSection"></div>
+            <?php endif; ?>
+            <!-- 路路结伴 -->
+            <i id="luluPartner" class="anchor-item"></i>
+            <?= Yii::$app->view->renderFile('@lulutrip/modules/tour/views/detail/components/lulu-partner.html', ['tourCode' => $tourCode, 'luluTopicCount' => $luluTopicCount, 'luluPartner' => $luluPartner]);?>
+            <!-- 问题咨询 -->
+            <i id="faq" class="anchor-item"></i>
+            <div class="detail-section" id="qaSection"></div>
+        </div>
+    </div>
+
+</div>
+<!-- 全局配置变量 -->
+<?php
+    $temp = array();
+    if(is_array($tourData['basic']['points'])) {
+        foreach($tourData['basic']['points'] as $val){
+            $arr = [];
+            $arr['name'] = $val['info']['locationCN'];
+            $arr['nameEn'] = $val['info']['locationEN'];
+            $arr['departure'] = (empty($val['startTime']) || ($val['startTime'] == '00:00:00'))? "" : $val['startTime'];
+            $arr['return'] = (empty($val['endTime']) || ($val['endTime'] == '00:00:00'))? "" : $val['endTime'];
+            $arr['address'] = $val['info']['address'];
+            $arr['city'] = $val['info']['cityCN'];
+            $temp[] = $arr;
+        }
+    }
+    $pickupData = json_encode($temp);
+
+    $location = Yii::$app->ip->getLocation(Yii::$app->ip->realIP());
+
+    //是否显示自选项目套餐导航
+    $optionalItemsNav = 0;
+    if(!empty($tourData['optionalItemSubType']) && in_array('21', $tourData['optionalItemSubType']) && !empty($tourData['basic']['priceExcludes'])){
+        $optionalItemsNav = 1;
+    }
+
+?>
+<script type="text/javascript">
+    var globalData = {
+        productId: '<?= $tourData['basic']['productCode'] ?>',
+        productTitle: '<?= $tourData['translation']['title'] ?>',
+        productType: 'tour',
+        pickupData: <?= $pickupData ?>,
+        currency: '<?= $currency ?>',
+        travelDays: '<?= $tourData['basic']['duration'] ?>',
+        customLink: '<?=$customLink ?>',
+        wechatLink: '<?=$wechatLink ?>',
+        productTemplate: '<?= $tourData['basic']['productTemplate'] ?>',
+        serviceTel:'<?= \Yii::$app->helper->getCustomerServicePhone(); ?>',
+        roomSex: '<?= $tourData['basic']['roomSex'] ?>',
+        roomDesc: '<?= $tourData['basic']['roomDesc'] ?>',
+        optionalItemsNav: '<?= $optionalItemsNav ?>',
+    };
+</script>
+<?php if($location['country_en'] == 'CN'): ?>
+<!-- 国内(上车地点调用) -->
+<script async defer src="http://maps.google.cn/maps/api/js?key=AIzaSyBaWrRgtpW5hfrnOwlvXUCGCqoM6bgOeeY"></script>
+<?php else: ?>
+<!-- 国外(上车地点调用) -->
+<script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBaWrRgtpW5hfrnOwlvXUCGCqoM6bgOeeY"></script>
+<?php endif; ?>

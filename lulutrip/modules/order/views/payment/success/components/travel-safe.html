@@ -1,0 +1,59 @@
+<?php
+
+$insurances = array(
+	0 => array(
+    "name" => "利宝保险国际旅行保障计划",
+    "logo" => "/images/cart/libao.png",
+    "price" => "8",
+    "link" => "https://diy.lulutrip.com/insurance/view/4",
+    "content" => "本保险须于旅行开始前购买，且旅行须开始于中国大陆境内，结束于中国大陆境内。<br>24小时全球紧急医疗救援和旅行支援服务<br>承保热门娱乐运动包括滑雪、潜水、骑马等<br>涵盖境外旅行期间发生的意外伤害、疾病、财物损失和个人责任等"
+    ),
+    1 => array(
+    "name" => "美亚“万国游踪”国际旅游保障计划",
+    "logo" => "/images/cart/aig.jpg",
+    "price" => "13",
+    "link" => "https://diy.lulutrip.com/insurance/view/5",
+    "content" => "本保险须于旅行开始前购买，且旅行须开始于中国大陆境内，结束于中国大陆境内。<br>24小时全球紧急医疗救援和旅行支援服务<br>承保热门运动：如滑雪、潜水、骑马等<br>包含意外伤害医疗、航班延误保障、个人随身财产损失保障"
+    ),
+    2 => array(
+    "name" => "“保游全球”畅游海外旅行保障",
+    "logo" => "/images/cart/yongan.png",
+    "price" => "4",
+    "link" => "https://diy.lulutrip.com/insurance/view/13",
+    "content" => "本保险须于旅行开始前购买，且旅行须开始于中国大陆境内，结束于中国大陆境内。<br>承保热门运动：如滑雪、潜水、骑马等<br>包含意外伤害住院津贴、航班延误保障、个人随身财产损失保障"
+    ),
+    3 => array(
+    "name" => "“保游全球”无忧旅行保障计划",
+    "logo" => "/images/cart/starr.jpg",
+    "price" => "40",
+    "link" => "https://diy.lulutrip.com/insurance/view/3",
+    "content" => "本保险可以支持旅游行程中直接在境外购买<br>24小时全球紧急医疗救援和旅行支援服务<br>涵盖意外伤害、住院医疗等保障<br>备有短期和全年计划供您灵活选择，全年出行不限制出行天数"
+    ),
+);
+
+?>
+
+<div class="travel-safe-cont">
+    <div class="tit">旅游保险</div>
+    <div class="list">
+        <ul>
+            <?php foreach ($insurances as $insurance): ?>
+            <li>
+                <a href="<?= $insurance['link'] ?>">
+                    <div class="img"><img src="//img1.quimg.com<?= $insurance['logo'] ?>"></div>
+                    <div class="name"><?= $insurance['name'] ?></div>
+                    <dl class="detail">
+                        <?php foreach (explode('<br>', $insurance['content']) as $rule): ?>
+                        <dd><?= $rule ?></dd>
+                        <?php endforeach; ?>
+                    </dl>
+                    <div class="price-btn">
+                        <div class="price"><b>US$<?= $insurance['price'] ?></b>起</div>
+                        <div class="btn">点击查看</div>
+                    </div>
+                </a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+</div>

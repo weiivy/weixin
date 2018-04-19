@@ -1,0 +1,39 @@
+<?php $fData = Yii::$app->params['formData'];?>
+<div class="check-list-select">
+    <label class="J-tagtips clearfix" data-group="<?=$item['descCN']?>">
+        <input name="activityGroups[<?=$groupId?>][<?=$item['itemId']?>][itemId]" value="<?=$item['itemId']?>" type="checkbox"<?php if(isset($isDisable)):?> checked="" disabled="disabled"<?php endif;?><?php if(isset($fData['activityGroups'][$groupId][$item['itemId']]['itemId'])):?> checked<?php endif;?>>
+        <?php if(isset($isDisable)):?>
+            <!--disable的checkbox没办法提交表单，故加隐藏表单-->
+            <input style="display: none;" name="activityGroups[<?=$groupId?>][<?=$item['itemId']?>][itemId]" value="<?=$item['itemId']?>" type="checkbox" checked>
+        <?php endif;?>
+        <span><?=$item['titleCN']?></span>
+    </label>
+    <?php $currency = Yii::$app->params['currencies'][$item['currency']]['sign'];?>
+    <?php if($item['priceType'] == 1):?>
+        <div class="check-price">
+            <span>成人<?=$currency?><?=$item['priceInfo']['adPrice']?>/位</span><span>儿童<?=$currency?><?=$item['priceInfo']['kdPrice']?>/位</span>
+        </div>
+    <?php elseif($item['priceType'] == 2):?>
+        <?php $unitName = in_array($subType, array(22, 23)) ? '辆' : '份'; ?>
+        <div class="check-price">
+            <!--若是接送机，直接展示价格备注-->
+            <?php if(in_array($subType, array(25, 26, 27))):?>
+                <?php foreach($item['columnInfos'] as $columnInfos):?>
+                <?=$columnInfos['columnValue']?> <?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$columnInfos['sellingPrice']?> <br/>
+                <?php endforeach;?>
+            <?php else:?>
+                <?=$currency?><?=$item['priceInfo']['amount']?> <?= ($subType == 23 ? '天/辆': '/ '.$unitName)?>
+            <?php endif?>
+        </div>
+        <div class="check-num">
+            <input type="text"
+                   value="<?php if(isset($fData['activityGroups'][$groupId][$item['itemId']]['unitCount'])):?><?=$fData['activityGroups'][$groupId][$item['itemId']]['unitCount']?><?php elseif($item['priceInfo']['defaultUnitCount'] > 0):?><?=$item['priceInfo']['defaultUnitCount']?><?php endif;?>"
+                   name="activityGroups[<?=$groupId?>][<?=$item['itemId']?>][unitCount]"
+                   data-max="<?php if(isset($item['priceInfo']['maxHeadCount'])):?><?=$item['priceInfo']['maxHeadCount']?><?php else:?>99<?php endif;?>"
+                   data-min="<?php if(isset($item['priceInfo']['minHeadCount'])):?><?=$item['priceInfo']['minHeadCount']?><?php else:?>1<?php endif;?>">
+            <?=($subType == 23 ? '天': $unitName)?>
+        </div>
+    <?php elseif($item['priceType'] == 5):?>
+        <div class="check-price"><?=$currency?> <?=$item['priceInfo']['amount']?> / 全员</div>
+    <?php endif;?>
+</div>

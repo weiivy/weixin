@@ -1,0 +1,47 @@
+<div class="<?= isset($class) ? $class : 'fill-detail' ?> J-change-box">
+    <div class="fill-detail-tit <?=$groupClass?>"><?=$groupName?></div>
+    <div class="fill-detail-info">
+        <?php if(isset($groups['must'])):?>
+            <div class="check-list">
+                <div class="check-list-name">必选项目(全部)</div>
+                <?php foreach ($groups['must'] as $items):?>
+                    <?php foreach($items['items'] as $item):?>
+                        <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-child-item.html', ['item' => $item, 'groupId' => $items['groupId'], 'subType' => $items['subType'], 'isDisable' => 1])?>
+                    <?php endforeach;?>
+                <?php endforeach;?>
+            </div>
+        <?php endif;?>
+        <?php if(isset($groups['multi'])):?>
+            <?php foreach($groups['multi'] as $items):?>
+                <div class="check-list J-must-choice" data-max="<?=$items['maxItems']?>" data-min="<?=$items['minItems']?>">
+                    <div class="check-list-name">必选项目(<?=$items['countItems']?>选<?=$items['minItems']?>) <div class="check-tips">请按要求勾选必选项目</div></div>
+                    <?php foreach($items['items'] as $item):?>
+                        <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-child-item.html', ['item' => $item, 'groupId' => $items['groupId'], 'subType' => $items['subType']])?>
+                    <?php endforeach;?>
+                </div>
+            <?php endforeach;?>
+        <?php endif;?>
+        <?php if(isset($groups['max-select'])):?>
+            <?php foreach($groups['max-select'] as $items):?>
+                <div class="check-list J-must-choice" data-max="<?=$items['maxItems']?>" data-min="<?=$items['minItems']?>">
+                    <div class="check-list-name">自选项目(最多选<?=$items['maxItems']?>项) <div class="check-tips">请按要求勾选必选项目</div></div>
+                    <?php foreach($items['items'] as $item):?>
+                        <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-child-item.html', ['item' => $item, 'groupId' => $items['groupId'], 'subType' => $items['subType']])?>
+                    <?php endforeach;?>
+                </div>
+            <?php endforeach;?>
+        <?php endif;?>
+        <?php if(isset($groups['select'])):?>
+            <div class="check-list">
+                <?php if(isset($groups['must']) || isset($groups['multi']) || (isset($groupType) && $groupType == 21)):?>
+                    <div class="check-list-name">自选项目</div>
+                <?php endif;?>
+                <?php foreach ($groups['select'] as $items):?>
+                <?php foreach((array)$items['items'] as $item):?>
+                        <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-child-item.html', ['item' => $item, 'groupId' => $items['groupId'], 'subType' => $items['subType']])?>
+                    <?php endforeach;?>
+                <?php endforeach;?>
+            </div>
+        <?php endif;?>
+    </div>
+</div>

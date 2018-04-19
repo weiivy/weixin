@@ -1,0 +1,25 @@
+<div class="travel-detail J-price-change">
+    <div class="fill-detail-tit">自选项目</div>
+    <div class="fill-detail-info">
+        <div class="check-list">
+            <?php foreach($items['items'] as $key => $item):?>
+                <div class="check-list-select">
+                    <label class="J-tagtips rental-car" data-group="<?=$item['name']?>">
+                        <input name="optional[<?=$item['id']?>]" value="<?=$item['id']?>" type="checkbox" <?php if(in_array($item['id'], $checked)):?> checked <?php endif;?>>
+                        <span><?=$item['name']?></span>
+                        <div class="check-price">
+                            <?=$item['info']?>
+                            <?=Yii::$app->params['curCurrencies']['sign']?><?=$item['price']?>/天，<?=Yii::$app->params['curCurrencies']['sign']?><?=$item['priceCaps']?> 封顶
+                        </div>
+                    </label>
+                </div>
+            <?php endforeach;?>
+        </div>
+        <p class="warn"><?=$items['instruction']?></p>
+    </div>
+</div>
+
+<!--免费接送机-->
+<div class="fee-pickup" id="feePickup">
+    <?= Yii::$app->view->renderFile('@rentcarModule/views/order/scheduling/fee-pickup.html')?>
+</div>

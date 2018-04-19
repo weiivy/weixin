@@ -1,0 +1,213 @@
+<?php if(isset($groups['41']) || isset($groups['42'])):?>
+<?php $fData = Yii::$app->params['formData'];?>
+<div class="fill-detail hotel-addon J-change-box">
+    <div class="fill-detail-tit">加订酒店</div>
+    <div class="fill-detail-info">
+        <?php if(isset($groups['41'])):?>
+        <div class="check-list">
+            <div class="check-list-select">
+                <label><input type="checkbox" class="J-hotel-add" name="hotelAddonFront"<?php if(isset($fData['hotelAddonFront'])):?> checked<?php endif;?>><span>提前入住酒店预订</span></label>
+                <div class="check-tips">请按要求填写入住时间</div>
+            </div>
+            <div class="check-list-more">
+                <div class="check-more-li">
+                    <span class="check-tit">酒店</span>
+                    <div class="check-info">
+                        <input class="J-select edit-input" placeholder="请选择提前入住酒店" type="text" disabled="disabled" readonly="readonly">
+                        <input name="advanceHotel[itemId]" class="J-select-hidden" type="hidden">
+                        <input name="advanceHotel[singleRoomCount]" class="J-select-single" type="hidden">
+                        <input name="advanceHotel[doubleRoomCount]" class="J-select-double" type="hidden">
+                        <input name="advanceHotel[tripleRoomCount]" class="J-select-triple" type="hidden">
+                        <input name="advanceHotel[quadRoomCount]" class="J-select-quad" type="hidden">
+                        <input class="J-date-advance" type="hidden">
+                        <div class="hotel-list">
+                            <h2>请选择<?=$startDate?>提前抵达入住酒店</h2>
+                            <div class="close"><a class="J-ofirmClose" href="javascript:;">X</a></div>
+                            <?php foreach($groups['41']['items'] as $item):?>
+                                <div class="list-li">
+                                    <div class="list-li-l">
+                                        <p class="name"><?=$item['titleCN']?></p>
+                                        <p class="star star<?=$item['extInfo']['level']?>"></p>
+                                        <p class="info"></p>
+                                        <?php if(!empty($item['extInfo']['address'])):?>
+                                            <p class="add">地址：<?=$item['extInfo']['address']?><br><?php if(!empty($item['extInfo']['tell'])):?>电话：<?=$item['extInfo']['tell']?><?php endif;?></p>
+                                        <?php endif;?>
+                                    </div>
+                                    <div class="list-li-r">
+                                        <?php if($item['priceInfo']['singleRoomAmount'] > 0):?>
+                                            <p class="li-option">
+                                                单人房
+                                                <select class="li-option-single" data-price="<?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['singleRoomAmount']?>">
+                                                    <option value="">请选择</option>
+                                                    <?php for($i = 1; $i < 10; $i++):?>
+                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                    <?php endfor;?>
+                                                </select>
+                                                <span class="li-span-single"><?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['singleRoomAmount']?></span> /晚
+                                            </p>
+                                        <?php endif;?>
+
+                                        <?php if($item['priceInfo']['doubleRoomAmount'] > 0):?>
+                                            <p class="li-option">
+                                                双人房
+                                                <select class="li-option-double" data-price="<?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['doubleRoomAmount']?>">
+                                                    <option value="">请选择</option>
+                                                    <?php for($i = 1; $i < 10; $i++):?>
+                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                    <?php endfor;?>
+                                                </select>
+                                                <span class="li-span-double"><?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['doubleRoomAmount']?></span> /晚
+                                            </p>
+                                        <?php endif;?>
+
+                                        <?php if($item['priceInfo']['tripleRoomAmount'] > 0):?>
+                                            <p class="li-option">
+                                                三人房
+                                                <select class="li-option-triple" data-price="<?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['tripleRoomAmount']?>">
+                                                    <option value="">请选择</option>
+                                                    <?php for($i = 1; $i < 10; $i++):?>
+                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                    <?php endfor;?>
+                                                </select>
+                                                <span class="li-span-triple"><?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['tripleRoomAmount']?></span> /晚
+                                            </p>
+                                        <?php endif;?>
+
+                                        <?php if($item['priceInfo']['quadRoomAmount'] > 0):?>
+                                            <p class="li-option">
+                                                四人房
+                                                <select class="li-option-quad" data-price="<?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['quadRoomAmount']?>">
+                                                    <option value="">请选择</option>
+                                                    <?php for($i = 1; $i < 10; $i++):?>
+                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                    <?php endfor;?>
+                                                </select>
+                                                <span class="li-span-quad"><?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['quadRoomAmount']?></span> /晚
+                                            </p>
+                                        <?php endif;?>
+                                        <a class="J-btn-hotel" data-name="advance" data-day="<?php if(isset($item['extInfo']['supportAddDay'])):?><?=date('Y-m-d', strtotime('-'.$item['extInfo']['supportAddDay'].' days '. $startDate))?><?php else:?><?=date('Y-m-d', strtotime('-1 days '. $startDate))?><?php endif;?>" data-key="<?=$item['itemId']?>" data-val="<?=$item['titleCN']?>" href="javascript:;">选择该酒店</a>
+                                    </div>
+                                </div>
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+                </div>
+                <div class="check-more-li J-hotel-date">
+                    <span class="check-tit">入住</span>
+                    <div class="check-info">
+                        <span><input name="advanceHotel[checkIn]" type="text" id="calendarin" data-dateday="<?=date('Y-m-d', strtotime('-1 days '. $startDate))?>" value="<?php if(isset($fData['advanceHotel']['checkIn'])):?><?=$fData['advanceHotel']['checkIn']?><?php endif;?>" placeholder="起始时间"></span>
+                    </div>
+                    ~
+                    <span class="check-tit">退房</span>
+                    <div class="check-info">
+                        <span><?=$startDate?></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif;?>
+        <?php if(isset($groups['42'])):?>
+        <div class="check-list">
+            <div class="check-list-select">
+                <label><input type="checkbox" class="J-hotel-add" name="hotelAddonBack"<?php if(isset($fData['hotelAddonBack'])):?> checked<?php endif;?>><span>延后离开酒店预订</span></label>
+                <div class="check-tips">请按要求填写退房时间</div>
+            </div>
+            <div class="check-list-more">
+                <div class="check-more-li">
+                    <span class="check-tit">酒店</span>
+                    <div class="check-info">
+                        <input class="J-select edit-input" type="text" placeholder="请选择延后离开酒店" disabled="disabled" readonly="readonly">
+                        <input name="postponeHotel[itemId]" class="J-select-hidden" type="hidden">
+                        <input name="postponeHotel[singleRoomCount]" class="J-select-single" type="hidden">
+                        <input name="postponeHotel[doubleRoomCount]" class="J-select-double" type="hidden">
+                        <input name="postponeHotel[tripleRoomCount]" class="J-select-triple" type="hidden">
+                        <input name="postponeHotel[quadRoomCount]" class="J-select-quad" type="hidden">
+                        <input class="J-date-postpone" type="hidden">
+                        <div class="hotel-list">
+                            <h2>请选择<?=$endDate?>延后离开酒店</h2>
+                            <div class="close"><a class="J-ofirmClose" href="javascript:;">X</a></div>
+                            <?php foreach($groups['42']['items'] as $item):?>
+                                <div class="list-li">
+                                    <div class="list-li-l">
+                                        <p class="name"><?=$item['titleCN']?></p>
+                                        <p class="star star<?=$item['extInfo']['level']?>"></p>
+                                        <p class="info"></p>
+                                        <?php if(!empty($item['extInfo']['address'])):?>
+                                            <p class="add">地址：<?=$item['extInfo']['address']?><br><?php if(!empty($item['extInfo']['tell'])):?>电话：<?=$item['extInfo']['tell']?><?php endif;?></p>
+                                        <?php endif;?>
+                                    </div>
+                                    <div class="list-li-r">
+                                        <?php if($item['priceInfo']['singleRoomAmount'] > 0):?>
+                                            <p class="li-option">
+                                                单人房
+                                                <select class="li-option-single" data-price="<?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['singleRoomAmount']?>">
+                                                    <option value="">请选择</option>
+                                                    <?php for($i = 1; $i < 10; $i++):?>
+                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                    <?php endfor;?>
+                                                </select>
+                                                <span class="li-span-single"><?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['singleRoomAmount']?></span> /晚
+                                            </p>
+                                        <?php endif;?>
+
+                                        <?php if($item['priceInfo']['doubleRoomAmount'] > 0):?>
+                                            <p class="li-option">
+                                                双人房
+                                                <select class="li-option-double" data-price="<?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['doubleRoomAmount']?>">
+                                                    <option value="">请选择</option>
+                                                    <?php for($i = 1; $i < 10; $i++):?>
+                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                    <?php endfor;?>
+                                                </select>
+                                                <span class="li-span-double"><?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['doubleRoomAmount']?></span> /晚
+                                            </p>
+                                        <?php endif;?>
+                                        <?php if($item['priceInfo']['tripleRoomAmount'] > 0):?>
+                                            <p class="li-option">
+                                                三人房
+                                                <select class="li-option-triple" data-price="<?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['tripleRoomAmount']?>">
+                                                    <option value="">请选择</option>
+                                                    <?php for($i = 1; $i < 10; $i++):?>
+                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                    <?php endfor;?>
+                                                </select>
+                                                <span class="li-span-triple"><?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['tripleRoomAmount']?></span> /晚
+                                            </p>
+                                        <?php endif;?>
+                                        <?php if($item['priceInfo']['quadRoomAmount'] > 0):?>
+                                            <p class="li-option">
+                                                四人房
+                                                <select class="li-option-quad" data-price="<?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['quadRoomAmount']?>">
+                                                    <option value="">请选择</option>
+                                                    <?php for($i = 1; $i < 10; $i++):?>
+                                                        <option value="<?=$i?>"><?=$i?></option>
+                                                    <?php endfor;?>
+                                                </select>
+                                                <span class="li-span-quad"><?=Yii::$app->params['currencies'][$item['currency']]['sign']?><?=$item['priceInfo']['quadRoomAmount']?></span> /晚
+                                            </p>
+                                        <?php endif;?>
+                                        <a class="J-btn-hotel" data-name="postpone" data-day="<?php if(isset($item['extInfo']['supportAddDay'])):?><?=date('Y-m-d', strtotime('+'.$item['extInfo']['supportAddDay'].' days '. $endDate))?><?php else:?><?=date('Y-m-d', strtotime('+1 days '. $endDate))?><?php endif;?>" data-key="<?=$item['itemId']?>" data-val="<?=$item['titleCN']?>" href="javascript:;">选择该酒店</a>
+                                    </div>
+                                </div>
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+                </div>
+                <div class="check-more-li J-hotel-date">
+                    <span class="check-tit">入住</span>
+                    <div class="check-info">
+                        <span><?=$endDate?></span>
+                    </div>
+                    ~
+                    <span class="check-tit">退房</span>
+                    <div class="check-info">
+                        <span><input name="postponeHotel[checkOut]" type="text" id="calendarout" data-dateday="<?=date('Y-m-d', strtotime('+1 days '. $endDate))?>" value="<?php if(isset($fData['postponeHotel']['checkOut'])):?><?=$fData['postponeHotel']['checkOut']?><?php endif;?>" placeholder="退房时间"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php endif;?>
+    </div>
+</div>
+<div class="bg_layer" id="bg_layer"></div>
+<?php endif;?>

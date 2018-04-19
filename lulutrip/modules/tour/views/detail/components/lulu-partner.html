@@ -1,0 +1,66 @@
+<?php
+use yii\helpers\Html;
+?>
+<div class="detail-section" id="partnerSection">
+    <div class="section-title">
+        路路结伴
+        <span class="title-tips">
+            <ul class="llp-tips clearfix">
+            <li>结伴同游</li>
+            <li>拼房优惠</li>
+            <li>美丽邂逅</li>
+            <li>互帮互助</li>
+            </ul>
+        </span>
+    </div>
+    <div id="llpList" class="llp-list">
+        <?php if ($luluPartner): ?>
+        <!-- 有结伴信息 -->
+        <ul>
+            <?php foreach((array)$luluPartner as $key => $value):?>
+            <!-- 图片域名替换 -->
+            <?php
+                $value['content'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $value['content']);
+            ?>
+            <li>
+                <div class="user-avatar">
+                    <a href="<?= Yii::$app->params['service']['www']?>/space/view/id-<?= $value['memberid'] ?>">
+                        <?php if ($value['avatar']): ?>
+                        <img src="//img1.quimg.com/<?= $value['avatar'] ?>" width="68px" height="68px" />
+                        <?php elseif ($value['i_am'] == 'M'): ?>
+                        <img src="//img1.quimg.com/images/my_profile/file_img3.jpg" width="68px" height="68px" />
+                        <?php else: ?>
+                        <img src="//img1.quimg.com/images/my_profile/file_img1.jpg" width="68px" height="68px" />
+                        <?php endif; ?>
+                        <span><?= $value['screenname'] ?></span>
+                    </a>
+                </div>
+                <div class="comment-content">
+                    <div class="clearfix">
+                        <a href="http://bbs.lulutrip.com/topic/view/id-<?= $value['topicId'] ?>" target="_blank">
+                            <span class="topic-name"><?= $value['subject'] ?></span>
+                        </a>
+                        <span><?= $value['postDate'] ?></span>
+                    </div>
+                    <div class="comment-p"><?= Html::decode($value['content']) ?></div>
+                </div>
+            </li>
+            <?php endforeach;?>
+        </ul>
+        <?php else: ?>
+        <!-- 无结伴信息 -->
+        <div class="data-empty-tips">暂无数据</div>
+        <?php endif; ?>
+    </div>
+    <div class="publish-llp clearfix">
+        <?php if($luluTopicCount > 0):?><a class="link-btn" href="http://bbs.lulutrip.com/topic/entry/type-5/tourcode-<?= $tourCode ?>">查看更多结伴主题<?php if($luluTopicCount > 0):?>（<?= $luluTopicCount ?>）<?php endif;?></a><?php endif;?>
+        <a class="publish-btn" href="http://bbs.lulutrip.com/topic/post_new/type-5/tourcode-<?= $tourCode ?>">点击发表结伴</a>
+        <div class="llt-partner-wechat">
+            <i>
+                <img alt="路路结伴微信二维码" src="//llt.quimg.com/llt-static/images/detail/llt-jieban-wechat.png" width="100px" height="100px" />
+            </i>
+            <span><a href="javascript:;">关注结伴小助手微信</a></span>
+        </div>
+    </div>
+
+</div>

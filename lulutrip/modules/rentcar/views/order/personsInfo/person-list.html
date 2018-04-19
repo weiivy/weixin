@@ -1,0 +1,54 @@
+<div class="person-group J-personGroup">
+        <div class="item">
+            <div class="th"><i>*</i>当日手机号码：</div>
+            <div class="td">
+                <select name="personsInfo[areaCode]">
+                    <option value="">选择区号</option>
+                    <?php foreach($phoneAreaCodes as $area => $code):?>
+                    <option value="<?=$code?>">+<?=$code?>(<?=$area?>)</option>
+                    <?php endforeach;?>
+                </select>
+                <input type="text" name="personsInfo[phoneNumber]" class="phone-box" placeholder="手机号码">
+                <div class="check-tips">手机号码不正确！</div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="th"><i>*</i>姓（拼音/英文）：</div>
+            <div class="td">
+                <input type="text" name="personsInfo[lastName]" class="input required" placeholder="姓（拼音/英文）">
+                <span>名（拼音/英文）：</span>
+                <input type="text" name="personsInfo[firstName]" class="input required" placeholder="名（拼音/英文）">
+            </div>
+        </div>
+        <div class="item">
+            <div class="th"><i>*</i>年龄：</div>
+            <div class="td">
+                <input type="text" class="age-box" name="personsInfo[age]" class="input required" placeholder="年龄">
+                <div class="check-tips">年龄输入不正确！</div>
+            </div>
+        </div>
+        <div class="item">
+            <div class="th"><i>*</i>驾照类型：</div>
+            <div class="td">
+                <select name="personsInfo[type]">
+                    <option value="">驾照类型</option>
+                    <option value="中国驾照">中国驾照</option>
+                    <option value="中国驾照 + 公证件">中国驾照 + 公证件</option>
+                    <option value="中国驾照 + 翻译件">中国驾照 + 翻译件</option>
+                    <option value="国际驾照（IDP）">国际驾照（IDP）</option>
+                    <option value="香港驾照">香港驾照</option>
+                    <option value="美国驾照">美国驾照</option>
+                    <option value="加拿大驾照">加拿大驾照</option>
+                </select>
+            </div>
+        </div>
+    <div class="item">
+        <p>需要多人开车？</p>
+        <p>无需在此登记，请在取车时向店员添加额外驾驶人(Additional driver)，同样需要出示符合要求的驾照证件和护照。具体价格请参考门店。</p>
+    </div>
+    <div class="item">
+        <p>驾驶员年龄不满25周岁？</p>
+        <p>租车公司对18岁至24岁的驾驶员将收取约 19 USD/日的“风险驾驶金”门店支付，不含税</p>
+        <p>具体价格请参考门店</p>
+    </div>
+</div>

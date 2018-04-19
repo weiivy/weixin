@@ -1,0 +1,28 @@
+<div class="table-style" id="pickupinfo">
+    <h2>集合信息<span>Meeting Place</span></h2>
+    <table border="1" cellspacing="0" cellpadding="0" bordercolor="#e4e4e4">
+        <col width="14%">
+        <col width="86%">
+        <tr>
+            <th scope="col"> 上车时间 </th>
+            <th scope="col"> 上车信息 </th>
+        </tr>
+        <tr>
+            <td><p> <?= $pickup['pickup_time'] ?></p></td>
+            <td><p>参团城市：<?= $pickup['pickup_city'] ?></p>
+                <p>上车地点：<?= $pickup['pickup_point'] ?></p>
+                <p>上车地址：<?= $pickup['pickup_address'] ?></p>
+                <p>参团备注：<?= isset($voucher['tour_remark']) && !empty($voucher['tour_remark']) ? $voucher['tour_remark'] : 'N/A' ?></p></td>
+        </tr>
+    </table>
+</div>
+<div class="table-style  " id="pickupterms">
+    <h2>参团须知<span>Pick-Up Notice</span></h2>
+    <p>
+        <?php if (!empty($voucher['tourin_notes'])): ?>
+        <?= htmlspecialchars_decode($voucher['tourin_notes']) ?>
+        <?php else: ?>
+        <?= htmlspecialchars_decode($supplier['operatorpickupterms']) ?>
+        <?php endif; ?>
+    </p>
+</div>

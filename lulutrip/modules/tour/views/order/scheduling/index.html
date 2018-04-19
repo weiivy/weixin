@@ -1,0 +1,52 @@
+<?= $this->registerJsFile(Yii::$app->controller->staticUrl . "order/tour/booking/index.entry.js");?>
+<?= $this->registerCssFile(Yii::$app->controller->staticUrl . "order/tour/booking/index.entry.css", ['position'=>$this::POS_END]);?>
+
+<!-- 主体内容 -->
+<div id="content" class="content">
+    <div id="orderStep"></div>
+    <?php if(Yii::$app->user->isGuest): ?>
+    <div id="loginModule">
+        <div class="login-module">
+            <a rel="nofollow" class="btn" href="<?=\Yii::$app->params['service']['ssl']?>/user/login">登录</a>
+            <span>登录后，可使用您账户中的积分，抵扣消费</span>
+        </div>
+    </div>
+    <?php endif;?>
+    <div class="clearfix">
+        <div class="order-info-left">
+            <!--人员信息-->
+            <div class="personnel-information" id="personnelInformation">
+                <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/personnel-information.html', ['data' => $data])?>
+            </div>
+            <form method="post" action="/tour/booking/step1">
+                <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/fill-information.html', ['groups' => $data['groups'], 'basic' => $data['basic']])?>
+                <!--加订酒店-->
+                <div class="hotel-addon" id="hotelAddon">
+                    <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/hotel-addon.html', ['groups' => $data['groups'], 'startDate' => $data['startDate'], 'endDate' => $data['endDate']])?>
+                </div>
+                <input type="hidden" name="shoppingId" value="<?=$shoppingId?>">
+            </form>
+        </div>
+        <div class="order-info-right">
+            <div class="cost-detail" id="costDetail">
+                <div class="cost-detail-list">
+                    <div class="cost-detail-tit">费用明细</div>
+                    <div class="cost-detail-li" id="cost-detail-li"></div>
+                    <div class="cost-detail-discount" id="cost-detail-discount"></div>
+                    <div class="cost-detail-total"  id="cost-detail-total"></div>
+                </div>
+                <div class="cost-detail-btn">
+                    <a class="J-btn-next" ga-data="200200" href="javascript:;">下一步</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="um-pd-cover J-umPdCover"></div>
+</div>
+<script type="text/javascript">
+    var globalData = {
+        classify : 'tour',
+        shoppingId: '<?= $shoppingId ?>',
+        currentTime: '<?= date("Y-m-d H:i:s", time())?>'
+    };
+</script>

@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="http://img1.quimg.com/styles/tour_package_e-voucher.css?v={$version}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="http://img1.quimg.com/styles/index_14.css?version={$releaseVersion}" />
+    <script type="text/javascript" src="http://img1.quimg.com/scripts/jquery-1.9.0.js" ></script>
+    <script type="text/javascript" src="http://img1.quimg.com/scripts/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="http://img1.quimg.com/scripts/My97DatePicker/WdatePicker.js" ></script>
+    <script type="text/javascript" src="http://img1.quimg.com/scripts/e_voucher.js?v={$version}" ></script>
+    <style type="text/css" media="print">
+        .noprint { display : none }
+        .print_r{ float:left; margin:0 auto;}
+        .nextpage {page-break-after:always;}
+    </style>
+    <style type="text/css">
+        .btn01_order_tb { display:block; width: 103px; height: 22px; line-height: 22px; text-align: center;font-size: 12px; background: #fa5800; color: #fff; text-decoration: none; border:2px solid #fa5800; border-radius: 5px; margin-bottom: 2px;
+            float: left!important; display: inline-block!important; margin-right: 10px;}
+    </style>
+    <script type="text/javascript">
+        var is_priv = "";
+        var voucherId = "";
+        var orderType = 'tour';
+        function trim(str) {
+            return str.replace(/(^\s*)|(\s*$)/g, "");
+        }
+    </script>
+    <title>电子凭证</title>
+</head>
+<body data-spy="scroll" data-target=".contents_nav">
+<div id="main_14">
+    <div class="contents">
+        <!--左侧导航 start-->
+        <div class="contents_nav noprint">
+            <div class="contents_nav_main">
+                <div class="nav_contents">
+                    <ul class="nav_contents_div nav">
+                        <li id="key_orderinfo" class="nav_div_con active"> <a href="#orderinfo" class="nav_con_a">重要信息</a> </li>
+                        <li id="key_passenger" class="nav_div_con"> <a href="#passenger" class="nav_con_a">驾驶员信息</a> </li>
+                        <li id="key_pickupterms" class="nav_div_con"> <a href="#pickupterms" class="nav_con_a">参团信息</a> </li>
+                        <li id="key_tournotes" class="nav_div_con"> <a href="#tournotes" class="nav_con_a">注意事项</a> </li>
+                    </ul>
+                    <div class="nav_contents_div"><!--列表块-->
+                        <div class="line"></div>
+                        <div class="nav_div_con"> <a href="javascript:;" class="nav_con_a" onclick="window.print();"><i class="icon1"></i>打印凭证</a> </div>
+                        <!-- <div class="nav_div_con"> <a href="javascript:;" class="nav_con_a"><i class="icon2"></i>导出凭证</a> </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--左侧导航 end-->
+        <div class="contents_right print_r" id="printPDFIframe">
+            <div class="contents_right_main">
+                <div class="contents_right_h">
+                    <h2>路路行 7x24 服务热线</h2>
+                    <p>+1-408-786-0688（北美） 400-821-8973 （中国）</p>
+                </div>
+                <div class="contents_right_weixin mb20">
+                    <div>
+                        <h1>Rental Car Package E-Voucher</h1>
+                        <h2>租车产品电子凭证</h2>
+                        <h3>可直接携带电子版，或纸质版参团</h3>
+                    </div>
+                    <dl>
+                        <dt class="fl"><img src="http://www.lulutrip.com/my/qrcode" width="87" height="87" /></dt>
+                        <dd class="fl">
+                            <h3 class="f18 fb">微信扫一扫</h3>
+                            <p class="f14">订单信息随时查</p>
+                            <p class="f14">行程疑问随时答</p>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="contents_right_inro">
+                    <div class="table-style style01" id="orderinfo">
+                        <h2>重要信息<span>Important Information</span></h2>
+                        <div class="msg">
+                            <dl>
+                                <dt>订单信息</dt>
+                                <dd>
+                                    <p>订单编号：<span><?= $orderRentcar['orderconf'] ?></span></p>
+                                    <p>产品名称：<a href="http://www.lulutrip.com/rental-car/id-<?= $orderRentcar['carid'] ?>" target="_blank"><?= $orderRentcar['carname'] ?> (编号: <?= $orderRentcar['carid'] ?>)</a></p>
+                                    <p>取车时间：<span><?= $orderRentcar['pickup_time'] ?></span></p>
+                                </dd>
+                            </dl>
+                            <dl id="operator">
+                                <dt>地接信息</dt>
+                                <dd>
+                                    <p>地接名称：<span><?= $operators->operatorname_en ?> - <?= $operators->operatorname ?></span></p>
+                                    <p>地接紧急电话：<span><?= $operators->operatorecontact ?></span></p>
+                                </dd>
+                            </dl>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                    <div class="table-style" id="passenger">
+                        <h2>驾驶员信息<span>Passenger List</span></h2>
+                        <p>当日驾驶员手机：<span><?= $orderRentcar['customerpickupnote'] ?></span></p><br />
+                        <p><?= $passenger['lastname'] . ' ' . $passenger['firstname']?> / <?= $passenger['age']?>岁 / CNT <?= $passenger['type']?></p>
+                    </div>
+
+                    <?php if(!empty($flightInfo)):?>
+                        <?= Yii::$app->view->renderFile('@rentcarModule/views/order/voucher/flight-info.html', ['flight' => $flightInfo, 'voucher' => $voucher, 'supplier' => $supplier]);?>
+                    <?php endif;?>
+
+                    <div class="table-style" id="pickupterms">
+                        <h2>参团信息<span>Meeting Place</span></h2>
+                        <table>
+                            <tr>
+                                <td>
+                                    <p>车辆类型：<span><?= $orderRentcar['carinfo']?></span></p><br/>
+                                    <p>座位数：<span><?= $orderRentcar['seats']?></span></p>
+                                    <p>行李空间：<span><?= $orderRentcar['luggage']?></span></p>
+                                    <p>保险信息：<span><?= $insurance[$orderRentcar['insurance']]?></span></p><br/>
+                                    <p>提车信息：<span><?= $orderRentcar['pickup_time']?></span> <span><?= $location[$orderRentcar['pickup_location']]['agency_name']?></span></p>
+                                    <p>地址：<span><?= $location[$orderRentcar['pickup_location']]['agency_address']?></span></p>
+                                    <p>柯信租车总服务台电话：<span><?= $operators['operatorphone']?></span></p>
+                                    <p>请您到达机场后，拨打柯信租车的电话，柯信会派人接机取车</p><br/>
+                                    <p>还车信息：<span><?= $orderRentcar['return_time']?></span> <span><?= $location[$orderRentcar['return_location']]['agency_name']?></span></p>
+                                    <p>地址：<span><?= $location[$orderRentcar['return_location']]['agency_address']?></span></p><br/>
+                                    <p>柯信租车总服务台电话：<span><?= $operators['operatorphone']?></span></p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="table-style" id="tournotes">
+                        <h2>注意事项<span>Important Notice</span></h2>
+                        <div>
+                           <?= htmlspecialchars_decode($voucher['tournotes'])?>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <?= Yii::$app->view->renderFile('@lulutrip/modules/order/views/order/voucher/contact-info.html', []);?>
+                <div style="text-align: center;">
+                    <img src="http://llt.quimg.com/llt-static/images/email/email_foot2.jpg" width="100%" alt="路路行全体成员祝您旅途愉快！"/>
+                </div>
+                <div style="background:#fff; text-align: center;">
+                    <img src="http://llt.quimg.com/llt-static/images/email/email_foot3.jpg" width="581" height="80" alt="路路行旅行网 将世界旅行送至你的指尖！"/>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="fixed_r_navbar2" id="fixed_r_navbar2"> <div class="icon"><a href="javascript:backToTop();" class="backtotop" style=""></a></div> </div>
+</body>
+</html>

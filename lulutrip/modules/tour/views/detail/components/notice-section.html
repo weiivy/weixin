@@ -1,0 +1,94 @@
+<?php
+use yii\helpers\Html;
+?>
+<i id="order_info" class="anchor-item"></i>
+<div id="noticeSection" class="detail-section">
+    <div class="section-title">订购须知</div>
+    <div class="section-content">
+        <div class="book-steps">
+            <ul class="clearfix">
+                <li class="notice-step">
+                    <i class="step1"></i>
+                    <p>选择参团产品</p>
+                </li>
+                <li>
+                    <i class="step-arrow"></i>
+                </li>
+                <li class="notice-step">
+                    <i class="step2"></i>
+                    <p>填写信息</p>
+                </li>
+                <li>
+                    <i class="step-arrow"></i>
+                </li>
+                <li class="notice-step">
+                    <i class="step3"></i>
+                    <p>在线支付</p>
+                </li>
+                <li>
+                    <i class="step-arrow"></i>
+                </li>
+                <li class="notice-step">
+                    <i class="step4"></i>
+                    <p>邮件电子凭证</p>
+                </li>
+                <li>
+                    <i class="step-arrow"></i>
+                </li>
+                <li class="notice-step">
+                    <i class="step5"></i>
+                    <p>愉快出行</p>
+                </li>
+            </ul>
+        </div>
+        <?php if(!empty($tourData['translation']['needToKnow'])): ?>
+        <div class="special-notice">
+            <div class="notice-name">入团须知</div>
+            <?php foreach((array)$tourData['translation']['needToKnow'] as $needToKnow):?>
+            <!-- 图片域名替换 -->
+            <?php
+                $needToKnow['content'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $needToKnow['content']);
+            ?>
+            <?php echo Html::decode($needToKnow['content']); ?>
+            <?php endforeach;?>
+        </div>
+        <?php endif; ?>
+
+        <div class="book-rule-policy">
+            <?php if(!empty($tourData['translation']['tips'])): ?>
+            <div class="rp-item">
+                <div class="rp-title">
+                    <div class="rp-name">订购条款</div>
+                    <a class="coll-btn" href="javascript:;">展开</a>
+                </div>
+                <ul class="rp-content rp-clause">
+                    <?php foreach((array)$tourData['translation']['tips'] as $tip):?>
+                    <!-- 图片域名替换 -->
+                    <?php
+                        $tip['content'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $tip['content']);
+                    ?>
+                    <?php echo Html::decode($tip['content']); ?>
+                    <?php endforeach;?>
+                </ul>
+            </div>
+            <?php endif; ?>
+            <?php if(!empty($tourData['translation']['policy'])): ?>
+            <div class="rp-item expand">
+                <div class="rp-title">
+                    <div class="rp-name">变更、取消退款政策</div>
+                    <a class="coll-btn" href="javascript:;">收起</a>
+                </div>
+                <ul class="rp-content rp-clause">
+                    <?php foreach((array)$tourData['translation']['policy'] as $policy):?>
+                    <!-- 图片域名替换 -->
+                    <?php
+                        $policy['content'] = preg_replace('/\/\/(www|admin).lulutrip.com\/upload\//', '//img1.quimg.com/upload/', $policy['content']);
+                    ?>
+                    <?php echo Html::decode($policy['content']); ?>
+                    <?php endforeach;?>
+                </ul>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

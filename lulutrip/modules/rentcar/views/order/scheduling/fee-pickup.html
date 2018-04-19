@@ -1,0 +1,32 @@
+<?php $fData = Yii::$app->params['formData'];?>
+<div class="fill-detail J-change-box">
+    <div class="fill-detail-tit">免费接送机<div class="check-tips">请按要求勾选接送机服务</div></div>
+    <div class="fill-detail-info">
+        <div class="check-list J-must-fill">
+            <div class="check-list-select">
+                <label><input type="radio" class="J-fill-radio" name="fillTransfer" value="1"<?php if(isset($fData['fillTransfer']) && $fData['fillTransfer'] == 1):?> checked<?php endif;?>><span>需要机场接送，已有航班信息</span></label>
+                <label class="ml20"><input type="radio" class="J-fill-radio" name="fillTransfer" value="2"<?php if(isset($fData['fillTransfer']) && $fData['fillTransfer'] == 2):?> checked<?php endif;?>><span>需要机场接送，暂无航班信息</span></label>
+                <label class="ml20"><input type="radio" class="J-fill-radio" name="fillTransfer" value="3"<?php if(isset($fData['fillTransfer']) && $fData['fillTransfer'] == 3):?> checked<?php endif;?>><span>无需机场接送</span></label>
+            </div>
+            <div class="check-list-info">
+                <div class="info-transfer">
+                    <div class="info-transfer-list J-box-list">
+                        <label><input type="checkbox" class="J-fill-checkbox" name="feePickupAccept"<?php if(isset($fData['feePickupAccept'])):?> checked<?php endif;?>><span>接机服务-填写航班信息</span></label>
+                        <div class="transfer-d"><span>飞抵日期</span><i>*</i><input class="calendar-input" name="inflight[date]" type="text" disabled="disabled" value="<?php if(isset($fData['inflight']['date'])):?><?=$fData['inflight']['date']?><?php endif;?>"></div>
+                        <div class="transfer-d"><span>航班号码</span><i>*</i><input name="inflight[flight]" type="text" disabled="disabled" value="<?php if(isset($fData['inflight']['flight'])):?><?=$fData['inflight']['flight']?><?php endif;?>"></div>
+                        <div class="transfer-d"><span>抵达机场</span><i>*</i><input name="inflight[arrivalap]" type="text" disabled="disabled" value="<?php if(isset($fData['inflight']['arrivalap'])):?><?=$fData['inflight']['arrivalap']?><?php endif;?>"></div>
+                        <div class="transfer-d"><span>抵达时间</span><i>*</i><input class="calendar-input" data-enable-time="true" data-enable-seconds="true" data-no-calendar="true" name="inflight[arrival]" type="text" disabled="disabled" value="<?php if(isset($fData['inflight']['arrival'])):?><?=$fData['inflight']['arrival']?><?php endif;?>"></div>
+                    </div>
+                    <div class="info-transfer-list J-box-list">
+                        <label><input type="checkbox" class="J-fill-checkbox" name="feePickupSend"<?php if(isset($fData['feePickupSend'])):?> checked<?php endif;?>><span>送机服务-填写航班信息</span></label>
+                        <div class="transfer-d"><span>飞出日期</span><i>*</i><input class="calendar-input" name="outflight[date]" type="text" disabled="disabled" value="<?php if(isset($fData['outflight']['date'])):?><?=$fData['outflight']['date']?><?php endif;?>"></div>
+                        <div class="transfer-d"><span>航班号码</span><i>*</i><input name="outflight[flight]" type="text" disabled="disabled" value="<?php if(isset($fData['outflight']['flight'])):?><?=$fData['outflight']['flight']?><?php endif;?>"></div>
+                        <div class="transfer-d"><span>出发机场</span><i>*</i><input name="outflight[deptap]" type="text" disabled="disabled" value="<?php if(isset($fData['outflight']['deptap'])):?><?=$fData['outflight']['deptap']?><?php endif;?>"></div>
+                        <div class="transfer-d"><span>出发时间</span><i>*</i><input class="calendar-input" data-enable-time="true" data-enable-seconds="true" data-no-calendar="true" name="outflight[dept]" type="text" disabled="disabled" value="<?php if(isset($fData['outflight']['dept'])):?><?=$fData['outflight']['dept']?><?php endif;?>"></div>
+                    </div>
+                </div>
+                <div class="info-transfer">建议您先订购租车,订单确认后(1-2个工作日)，再订购机票。航班确认后，您可以登录用户中心续填航班信息，以便准时得到接送服务</div>
+            </div>
+        </div>
+    </div>
+</div>

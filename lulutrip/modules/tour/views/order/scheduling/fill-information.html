@@ -1,0 +1,39 @@
+<?php if(isset($groups[21])):?>
+<!--行程安排-->
+<div class="arrange-travel" id="arrangeTravel">
+    <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-item.html', ['groups' => $groups[21], 'groupName' => '行程安排', 'groupType' => 21, 'class' => 'travel-detail', 'groupClass' => 'fill-travel'])?>
+</div>
+<?php endif;?>
+<?php if(Yii::$app->params['pickupType']['code'] == 1):?>
+<!--免费接送机-->
+<div class="fee-pickup" id="feePickup">
+    <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/fee-pickup.html')?>
+</div>
+<?php endif;?>
+<?php if(Yii::$app->params['pickupType']['code'] == 2):?>
+<!--上车地点-->
+<div class="boarding-loation" id="boardingLoation">
+    <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/boarding-location.html', ['basic' => $basic])?>
+</div>
+<?php endif;?>
+<!--其他安排-->
+<div class="arrange-other" id="arrangeOther">
+    <?php if(isset($groups[25])):?>
+    <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-item.html', ['groups' => $groups[25], 'groupName' => '接机', 'groupClass' => 'fill-transfer'])?>
+    <?php endif;?>
+    <?php if(isset($groups[26])):?>
+        <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-item.html', ['groups' => $groups[26], 'groupName' => '送机', 'groupClass' => 'fill-transfer'])?>
+    <?php endif;?>
+    <?php if(isset($groups[27])):?>
+        <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-item.html', ['groups' => $groups[27], 'groupName' => '接送机', 'groupClass' => 'fill-transfer'])?>
+    <?php endif;?>
+    <?php if(isset($groups[24])):?>
+    <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-item.html', ['groups' => $groups[24], 'groupName' => '酒店升级', 'groupClass' => 'fill-hotel'])?>
+    <?php endif;?>
+    <?php if(isset($groups[23])):?>
+    <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-item.html', ['groups' => $groups[23], 'groupName' => '租车', 'groupClass' => 'fill-zu'])?>
+    <?php endif;?>
+    <?php if(isset($groups[22])):?>
+    <?= Yii::$app->view->renderFile('@tourModule/views/order/scheduling/optional-item.html', ['groups' => $groups[22], 'groupName' => '包车', 'groupClass' => 'fill-bao'])?>
+    <?php endif;?>
+</div>
